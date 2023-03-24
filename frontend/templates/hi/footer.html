@@ -1,0 +1,28 @@
+<footer>
+    <div class="footer-bottom py-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6" id="copyright">
+                    <div>कॉपीराइट © CurrentCopyrightYear. के द्वारा बनाई गई
+                        <a href="index.php">Glubble</a>
+                    </div>
+                </div>
+                <div class="col-lg-6 text-right">
+                    <a href="#">के बारे में</a>
+                    <a href="#">गोपनीयता नीति</a>
+                    <a href="#">संपर्क</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    var dateNow = new Date();
+    var intYear = dateNow.getFullYear();
+
+    $('#copyright').each(function() {
+        var text = $(this).text();
+        $(this).text(text.replace('CurrentCopyrightYear', intYear));
+    });
+</script>

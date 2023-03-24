@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% load static %}
+{% include "head.html" %}
+
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<style>
+    .specs-text-box:hover,
+    .specs-text-box:focus {
+        background-color: #8205e8;
+        color: white
+    }
+
+    .VIpgJd-ZVi9od-ORHb-OEVmcd {
+        visibility:hidden !important;
+    }
+</style>
+
+<body>
+    <!-- Main---->
+    {% include "en/nav.html" %}
+    <div class="container">
+        <div class="row flex-row-reverse align-items-center py-5">
+            <div class="col-lg-5">
+                <img src="{{ obj.gpu_image_name }}"  alt="">
+            </div>
+            <div class="col-lg-7">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <div class="ctg-heading mb-3 text-center">{{ obj.name }}</div>
+                        <img src="{% static 'assets/img/rtx.png' %}" alt="" class="info-img">
+                    </div>
+                    <div>
+                        <div>
+                            <div class="dropdown mb-3">
+                                <button class="btn btn-default-outline dropdown-toggle" type="button"
+                                    id="dropdown-change" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false">
+                                    Change
+                                </button>
+                                <div class="dropdown-menu scroll" aria-labelledby="dropdown-change">
+                                {% for d in data %}
+                                    <a class="dropdown-item" href="/graphics-cards/{{ d.url_name|lower }}/en/"> {{ d.name }}</a>
+                                {% endfor %}
+                                </div>
+                            </div>
+                            <div class="dropdown">
+                                <button class="btn btn-default-outline dropdown-toggle" type="button"
+                                    id="dropdown-compare" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false">
+                                    Compare
+                                </button>
+                                <div class="dropdown-menu scroll" aria-labelledby="dropdown-compare">
+                                {% for d in data %}
+                                    <a class="dropdown-item" href="/graphics-cards/{{ obj.url_name|lower }}-vs-{{ d.url_name|lower }}/en/"> {{ d.name }}</a>
+                                {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="box-shadow specs-box">
+            <div class="row">
+                <div class="col-lg-4">
+                    <h4 class="specs-heading border-bottom-0 mb-3">General</h4>
+                    <div class="specs-text">
+                        <h5>Release Date</h5>
+                        <div> {{ obj.release_date }} </div>
+                    </div>
+                    <div class="specs-text">
+                        <h5>Generation</h5>
+                        <div> {{ obj.generation }} </div>
+                    </div>
+                    <div class="specs-text">
+                        <h5>Market segment</h5>
+                        <div> {{ obj.market_segment }} </div>
+                    </div>
+                    <div class="specs-text">
+                        <h5>GPU code name</h5>
+                        <div> {{ obj.gpu_code_name }} </div>
+                    </div>
+                    <div class="specs-text">
+                        <h5>Architecture</h5>
+                        <div> {{ obj.architecture }} </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <h4 class="specs-heading border-bottom-0 mb-3">Memory</h4>
+                    <div class="specs-text">
+                        <h5>Memory Size</h5>
+                        <div>{{ obj.memory_size }}</div>
+                    </div>
+                    <div class="specs-text">
+                        <h5>Memory Type</h5>
+                        <div>{{ obj.memory_type}}</div>
+                    </div>
+                    <div class="specs-text">
+                        <h5>Memory Bus</h5>
+                        <div>{{ obj.memory_bus_width}}</div>
+                    </div>
+                    <div class="specs-text">
+                        <h5>Memory Bandwidth</h5>
+                        <div>{{ obj.memory_bandwidth }}</div>
+                    </div>
+                    <div class="specs-text">
+                        <h5>Memory clock speed</h5>
+                        <div> {{ obj.memory_clock_speed }} </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <h4 class="specs-heading border-bottom-0 mb-3">Technical specs</h4>
+                    <div class="specs-text">
+                        <h5>Pipelines / CUDA cores</h5>
+                        <div>{{ obj.cuda_cores }}</div>
+                    </div>
+                    <div class="specs-text">
+                        <h5>Boost Clock Speed</h5>
+                        <div>{{ obj.boost_clock_speed }}</div>
+                    </div>
+                    <div class="specs-text">
+                        <h5>Core clock speed</h5>
+                        <div>{{ obj.core_clock_speed }}</div>
+                    </div>
+                    <div class="specs-text">
+                        <h5>Thermal design power (TDP)</h5>
+                        <div>{{ obj.thermal_design_power }}</div>
+                    </div>
+                    <div class="specs-text">
+                        <h5>Manufacturing process
+                            technology</h5>
+                        <div> {{ obj.manufacturing_process_technology }}</div>
+                    </div>
+                    <div class="specs-text">
+                        <h5>Number of transistors</h5>
+                        <div> {{ obj.number_of_transistors }} </div>
+                    </div>
+                    <div class="specs-text">
+                        <h5>Texture Fill rate</h5>
+                        <div>{{ obj.texture_fill_rate }} GTexel/s</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-5">
+        <div class="box-shadow specs-box">
+            <h3 class="specs-heading">Benchmark performance</h3>
+            <div class="ctg-heading mt-3">{{ obj.name }}</div>
+            <div id="pass_mark">
+                {% for data in benchmark_performance %}
+                    {% if data.name == 'Passmark' %}
+                    <div class="ctg-heading mt-3">
+                        <h2>Passmark</h2>
+                    </div>
+                    <div class="ctg-heading mt-3">{{ data.text }}</div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="row align-items-center">
+                <div class="col-lg-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div>
+                                <input id="speed" type="text" value="88" class="d-none" />
+                                <div class="speedbox">
+                                    <div class="speedbox__score" id="speedbox-score"></div>
+                                    <div class="speedbox__groove"></div>
+                                    <div class="speedbox__base"></div>
+                                    <div class="speed-text"><span id="benchmark_performance">{{ benchmark_performance.0.score }}</span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <button class="btn-default-outline" id="Passmark" onClick="update_performance(this.id)">Passmark</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="specs-text-wrap py-3">
+                        {% for test in benchmark_performance %}
+                            {% if test.name != 'Passmark' %}
+                                <button class="specs-text-box" id="{{ test.name }}" onClick="update_performance(this.id)">{{ test.name }}</button>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-5">
+        <div class="box-shadow specs-box">
+            <h3 class="specs-heading">Gaming</h3>
+            <div class="specs-grid mt-3 border-bottom-dots">
+                <div class="specs-grid-container">
+                    <div class="container mt-3 p-0">
+                        <h5 class="mb-3">Average FPS</h5>
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="specs-text">
+                                    <h5>Full HD</h5>
+                                    <div>{{ obj.full_hd }}</div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="specs-text">
+                                    <h5>1440p</h5>
+                                    <div>{{ obj.r_1440p }}</div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="specs-text">
+                                    <h5>4k</h5>
+                                    <div>{{ obj.r_4k }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container px-0 py-3 border-bottom-dots">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <h5 class="mb-3">Popular Games</h5>
+                        <div class="" id="games">
+                            {% for game in obj.all_presets %}
+                            <div class="specs-text">
+                                <h5>{{ game.name }}</h5>
+                                <div>{{ game.value }}</div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="col-lg-8">
+                        <div class="specs-text-wrap py-3">
+                            {% for feature in obj.game_features %}
+                            <button class="specs-text-box" id="{{ feature }}" onClick="update_games(this.id)">{{ feature }}</button>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container px-0 mt-3">
+                <div class="row flex-row-reverse">
+                    <div class="col-lg-3 col-md-4">
+                        <div class="games-name-wrap">
+                            <h5 class="mb-2">Choose a Game</h5>
+                            {% for g in obj.all_games %}
+                            <button class="text-theme" id="{{ g }}" onClick="update_fps_data(this.id)">{{ g }}</button>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="col-lg-9 col-md-8">
+                        <div class="row mt-3 mt-md-0">
+                            <div class="col-6">
+                                <div id="game_details">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div id="game_benchmark">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <h3 class="specs-heading border-bottom-0">Official system requirements</h3>
+                            <div id="games_chart"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="container mt-5">
+        <div class="box-shadow specs-box">
+            <h3 class="specs-heading border-bottom-0">Relative perfomance</h3>
+
+            <div>
+                <div class="text-grey">{{ obj.name }}
+                    performance compared
+                    to nearest competitors
+                </div>
+
+            </div>
+            <div class="mt-3">
+                <div class="graph">
+                    <canvas id="barChart1"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <div class="container my-5">
+        <div class="box-shadow specs-box">
+            <h3 class="specs-heading border-bottom-0">{{ obj.name }} AND equivalent</h3>
+            {% if obj.equivalent_gpu_url_names %}
+            <div class="row mt-3">
+                <div class="col-lg-4">
+                    <div id="card_data">
+                    {% for card in obj.equivalent_gpu_url_names|slice:":2" %}
+                    <div class="progress-card">
+                        <div class="p-card-img">
+                            <img src="{% static 'assets/img/p-card.png' %}" alt="">
+                        </div>
+                        <div class="f-14 my-3">
+                            {{ card.name }}
+                        </div>
+                        <div>
+                            <a href="/graphics-cards/{{ obj.url_name|lower }}-vs-{{ card.url_name|lower }}/en/" class="btn-default btn-default-round">Compare</a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                        </div>
+                    <div class="text-center">
+                        <button class="btn-pagination" onClick="update_equivalent_gpu('pre')">
+                            <i class="fa fa-angle-left"></i>
+                        </button>
+                        <button class="btn-pagination" onClick="update_equivalent_gpu('next')">
+                            <i class="fa fa-angle-right"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="container mt-5">
+                        <div class="">
+                            <div class="graph w-100">
+                                <canvas id="barChart2"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+            <div class="container my-5">
+                <div class="box-shadow specs-box processors-box">
+                    <h3 class="specs-heading border-bottom-0">Recommended processors</h3>
+
+                    <div class="mt-3">
+                        {% for card in obj.similar_gpu_processes %}
+                        <div class="processor-card">
+                            <div class="d-flex align-items-center">
+                                <div class="processor-img">
+                                    <img src="{% static 'assets/img/intel.png' %}" alt="">
+                                </div>
+                                <div class="processor-text">
+                                    <div class="specs-text">
+                                        <h5>{{ card.name }}</h5>
+                                          <div>{{ card.processor }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+            {% include "en/footer.html" %}
+            {% include "script.html" %}
+
+            <script>
+                let speed = $("#speed");
+                let updatedSpeed
+
+                $(window).on('load', function () {
+                    updatedSpeed = Math.round(speed.val() * 180 / 100) - 45;
+
+                    $("#speedbox-score").css("transform", "rotate(" + updatedSpeed + "deg)");
+                    console.log(updatedSpeed);
+                });
+
+            </script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
+            <script>
+                var ctx = document.getElementById("barChart").getContext('2d');
+                var barChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+                        datasets: [{
+                            label: 'data-1',
+                            data: [750, 19, 100, 987, 28, 240, 700, 900, 234, 340],
+                            backgroundColor: "rgba(43, 25, 53, 0.6)"
+                        }, {
+                            label: 'data-2',
+                            data: [300, 29, 550, 305, 200, 103, 910, 123, 456, 789],
+                            backgroundColor: "rgba(249, 66, 239, 0.6)"
+                        }]
+                    },
+                    options: {
+                        legend: {
+                            display: false,
+                        },
+                    }
+                });
+            </script>
+
+            <script>
+                var ctx = document.getElementById("barChart2").getContext('2d');
+                var names = {{ obj.equivalent_gpu_names|safe }}
+                var barChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: names,
+                        datasets: [{
+                            label: names[0],
+                            data: {{ obj.equivalent_gpu_data|safe }},
+                            backgroundColor: "rgba(167, 63, 227, 1)"
+                        }]
+                    },
+                    options: {
+                        legend: {
+                            display: false,
+                        },
+                    }
+                });
+            </script>
+            <script>
+                var ctx = document.getElementById("barChart1").getContext('2d');
+                var names = {{ obj.relative_performance_names|safe }}
+                var barChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: names,
+                        datasets: [{
+                            label: names[0],
+                            data: {{ obj.relative_performance_data|safe }},
+                            backgroundColor: "rgba(167, 63, 227, 1)"
+                        }]
+                    },
+                    options: {
+                        legend: {
+                            display: false,
+                        },
+                    }
+                });
+            </script>
+        <script type="text/javascript">
+        var data = {{ obj.games|safe }}
+        var n = data[0]
+        $("#game_details").html("<h3 class='specs-heading border-bottom-0'>" + n.name + "</h3> <div class='specs-text'> <h5>Developer</h5> <div>" + n.developer + "</div> </div> <div class='specs-text'> <h5>Publisher</h5> <div>" + n.publisher + "</div> </div> <div class='specs-text'> <h5>Release date:</h5> <div>" + n.release_date + "</div> </div> <div class='specs-text'> <h5>Metacritic rating</h5> <div>" + n.metacritic_rating + "</div> </div> <div class='specs-text'> <h5>Our user rating</h5> <div>" + n.user_rating + "</div> </div>")
+        var b = n.benchmarks[0]
+        $("#game_benchmark").html("<h3 class='specs-heading border-bottom-0'>" + n.name + " FPS benchmarks</h3> <div class='specs-text'> <h5>low settings / 768p</h5> <div>" + b['low settings / 768p'] + "</div> </div> <div class='specs-text'> <h5>medium settings / 768p</h5> <div>" + b['186 FPS', 'medium settings / 768p'] + "</div> </div> <div class='specs-text'> <h5>high settings / 1080p</h5> <div>" + b['high settings / 1080p'] + "</div> </div> <div class='specs-text'> <h5>ultra settings / 1080p</h5> <div>" + b['ultra settings / 1080p'] + "</div> </div> <div class='specs-text'> <h5>QHD / 1440p</h5> <div>" + b['121 FPS', 'QHD / 1440p'] + "</div> </div>")
+        $("#games_chart").html(n.graph_html)
+          function update_performance(name)
+          {
+            var tests_data = {{ benchmark_performance|safe }}
+            for (let i = 0; i < tests_data.length; i++) {
+            var n = tests_data[i]
+            if (n.name == name) {
+              $("#pass_mark").html("<div class='ctg-heading mt-3'><h2>" + n.name + "</h2></div><div class='ctg-heading mt-3'>" + n.text +"</div>");
+              $("#benchmark_performance").html(n.score)
+            }
+
+            }
+          }
+          function update_games(name)
+          {
+            var games_data = {{ obj.all_presets_data|safe }}
+            var games = games_data[name]
+            var html_data = ""
+            console.log(games);
+            for (let i = 0; i < games.length; i++) {
+                var n = games[i]
+                html_data += "<div class='specs-text'><h5>" + n.name + "</h5><div>" + n.score + "</div></div>"
+            }
+            $("#games").html(html_data)
+          }
+
+          function update_fps_data(name) {
+            var data = {{ obj.games|safe }}
+            for (let i = 0; i < data.length; i++) {
+                var n = data[i]
+                if (n.name == name) {
+                  $("#game_details").html("<h3 class='specs-heading border-bottom-0'>" + n.name + "</h3> <div class='specs-text'> <h5>Developer</h5> <div>" + n.developer + "</div> </div> <div class='specs-text'> <h5>Publisher</h5> <div>" + n.publisher + "</div> </div> <div class='specs-text'> <h5>Release date:</h5> <div>" + n.release_date + "</div> </div> <div class='specs-text'> <h5>Metacritic rating</h5> <div>" + n.metacritic_rating + "</div> </div> <div class='specs-text'> <h5>Our user rating</h5> <div>" + n.user_rating + "</div> </div>")
+                  var b = n.benchmarks[0]
+                  $("#game_benchmark").html("<h3 class='specs-heading border-bottom-0'>" + n.name + " FPS benchmarks</h3> <div class='specs-text'> <h5>low settings / 768p</h5> <div>" + b['low settings / 768p'] + "</div> </div> <div class='specs-text'> <h5>medium settings / 768p</h5> <div>" + b['186 FPS', 'medium settings / 768p'] + "</div> </div> <div class='specs-text'> <h5>high settings / 1080p</h5> <div>" + b['high settings / 1080p'] + "</div> </div> <div class='specs-text'> <h5>ultra settings / 1080p</h5> <div>" + b['ultra settings / 1080p'] + "</div> </div> <div class='specs-text'> <h5>QHD / 1440p</h5> <div>" + b['121 FPS', 'QHD / 1440p'] + "</div> </div>")
+                  $("#games_chart").html(n.graph_html)
+                }
+
+
+            }
+          }
+        localStorage.setItem("page_number", 1);
+        function update_equivalent_gpu(action) {
+            var page_number = parseInt(localStorage.getItem("page_number"));
+            if (action == 'next') {
+                page_number = page_number + 1
+            }
+            if (action == 'pre') {
+                page_number = page_number - 1
+            }
+            var html_data = ''
+            var page_size = 2
+            var all_data = {{ obj.equivalent_gpu_url_names|safe }}
+            var total_len = all_data.length
+            if ( page_number < 1) {
+                return
+            }
+            var offset = (page_number * page_size) - page_size
+            var limit = offset + page_size
+            if (page_number * page_size > total_len && action == 'next' ) {
+                limit = total_len
+                offset = limit - 1
+                page_number = parseInt(total_len / page_size) + 1
+            }
+            for (let i = offset; i < limit; i++) {
+                var d = all_data[i]
+                html_data += "<div class='progress-card'> <div class='p-card-img'> <img src='{% static 'assets/img/p-card.png' %}' alt=''> </div> <div class='f-14 my-3'>" + d.name + "</div> <div> <a href='/graphics-cards/" + "{{ obj.url_name|lower }}" + "-vs-" + d.url_name + "/en/' class='btn-default btn-default-round'>Compare</a> </div> </div>"
+            }
+            $("#card_data").html(html_data)
+            console.log(total_len, action, "limit:", limit, "offset: ", offset, "page_number: ", page_number)
+            localStorage.setItem("page_number", page_number);
+        }
+        </script>
+
+</body>
+
+</html>

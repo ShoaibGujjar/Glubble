@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+{% load static %}
+{% include "head.html" %}
+
+<style>
+   #example_wrapper .row{
+      align-items: center;
+   }
+   #example_filter {
+      text-align: right;
+   }
+   #example_filter label{
+      text-align: left;
+   }
+   .page-item.active .page-link {
+      z-index: 1;
+      color: #fff;
+      background-color: #8205e8;
+      border-color: #8205e8;
+   }
+   .page-link{
+      color: #8205e8
+   }
+   .page-link:hover{
+      color: #8205e8
+   }
+   .page-link:focus {
+      box-shadow: none;
+   }
+   .VIpgJd-ZVi9od-ORHb-OEVmcd {
+      visibility:hidden !important;
+   }
+</style>
+<script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
+<body>
+{% include "es/nav.html" %}
+      <div class="container">
+         <div class="ctg-hr"></div>
+         <div class="ctg-wrap">
+            <div class="ctg-heading-wrap">
+               <div><img src="{% static 'assets/img/ctg.png' %}" alt=""></div>
+               <div class="ctg-heading">Compara dos GPU</div>
+            </div>
+            <form>
+               <div class="ctg-grid">
+                  <div class="ctg-dropdown-wrap">
+                     <div class="mb-5">
+                        <img src="{% static 'assets/img/ctg-inner.PNG' %}" alt="">
+                     </div>
+                     <div class="position-relative">
+                        <select class="form-control custom-select scroll" id="compare-btn-1">
+                           {% for obj in data %}
+                              <option>{{ obj.name }}</option>
+                           {% endfor %}
+                        </select>
+                        <div class="arrow-abs">
+                           <i class="fa fa-angle-down"></i>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="ctg-divider">
+                     <div class="vs">
+                        <div class="vs-text">VS</div>
+                     </div>
+                  </div>
+                  <div class="ctg-dropdown-wrap">
+                     <div class="mb-5">
+                        <img src="{% static 'assets/img/ctg-inner.PNG' %}" alt="">
+                     </div>
+                     <div class="position-relative">
+                        <select class="form-control custom-select scroll" id="compare-btn-2">
+                           {% for obj in data %}
+                              <option>{{ obj.name }}</option>
+                           {% endfor %}
+                        </select>
+                        <div class="arrow-abs">
+                           <i class="fa fa-angle-down"></i>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="mt-3 text-center">
+                  <button id="compare-btn" class="btn-default">Comparar</button>
+               </div>
+            </form>
+         </div>
+      </div>
+      <div class="container box-shadow my-5 py-3">
+         <div class="filters-wrap pb-3">
+            <div class="row align-items-center">
+               <div class="col-md-4 m-auto">
+                  <!-- <div class="price-range-slider ml">
+                     <p class="range-value">
+                        <input type="text" id="amount" readonly>
+                     </p>
+                     <div id="slider-range" class="range-bar"></div>
+                  </div> -->
+               </div>
+            </div>
+         </div>
+         <div class="">
+            <table id="example" class="table ctg-table" style="width:100%">
+               <thead>
+                  <tr>
+                     <th>Marca</th>
+                     <th>Nombre</th>
+                     <th>Actuación</th>
+                     <th>Fecha de lanzamiento</th>
+                     <th>Precio</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  {% for obj in data %}
+                  <tr>
+                     <td><a href="/graphics-cards/es/{{obj.url_name|lower}}/"><img src="{% static 'assets/img/rtx.png' %}" alt="" class="t-img"></a></td>
+                     <td><a href="/graphics-cards/es/{{obj.url_name|lower}}/">{{ obj.name }}</a></td>
+                     <td>
+                        <input id="{{ obj.id }}" type="text" value="{{ obj.performance }}" class="d-none"/>
+                        <div class="speedbox">
+                           <div class="speedbox__score" id="speedbox-score-{{ obj.id }}"></div>
+                           <div class="speedbox__groove"></div>
+                           <div class="speedbox__base"></div>
+                           <div class="speed-text"><span>{{ obj.performance }}</span>%</div>
+                        </div>
+                     </td>
+                     <td>año {{ obj.year }}</td>
+                     <td>
+                        <a href="{{ obj.amzn_link }}" class="p-wrap">
+                        <img src="{% static 'assets/img/amazon.png' %}" alt="">
+                        <span class="p-text">Disponible en Amazon ${{ obj.price }}</span>
+                        </a>
+                     </td>
+                  </tr>
+               {% endfor %}
+               </tbody>
+            </table>
+         </div>
+      </div>
+      {% include "es/footer.html" %}
+      {% include "script.html" %}
+    <script>
+    document.getElementById("compare-btn").addEventListener("click", function(event){
+        event.preventDefault()
+        selectElement1 = document.querySelector('#compare-btn-1');
+        selectElement2 = document.querySelector('#compare-btn-2');
+        window.location.replace("/graphics-cards/es/" + selectElement1.value.replace(/\s+/g, '-').toLowerCase()+"-vs-"+selectElement2.value.replace(/\s+/g, '-').toLowerCase() + "/")
+      });
+    </script>
+      <script>
+         let speed = $("#speed");
+         let updatedSpeed
+
+         $(window).on('load', function () {
+             updatedSpeed = Math.round(speed.val() * 180 / 100) - 45;
+
+             $("#speedbox-score").css("transform", "rotate(" + updatedSpeed + "deg)");
+             console.log(updatedSpeed);
+         });
+      let data = {{ other_data|safe }}
+      for (let i = 0; i < data.length; i++) {
+            var n = data[i]
+            let speed = $("#" + n.id);
+            let updatedSpeedd
+            updatedSpeedd = Math.round(n.performance * 180 / 100) - 45;
+            $("#speedbox-score-" + n.id).css("transform", "rotate(" + updatedSpeedd + "deg)");
+         }
+
+      </script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js"></script>
+      <script>
+         //-----JS for Price Range slider-----
+
+         $(function() {
+             $( "#slider-range" ).slider({
+                 range: true,
+                 min: 130,
+                 max: 500,
+                 values: [ 130, 250 ],
+                 slide: function( event, ui ) {
+                     $( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+                 }
+             });
+             $( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
+                 " - $" + $( "#slider-range" ).slider( "values", 1 ) );
+         });
+      </script>
+      <script>
+         $(document).ready(function () {
+             $('#example').DataTable();
+         });
+     </script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!--Pre Loader-->
+{% load static %}
+<div class="preloaderBg" id="preloader">
+    <div class="preloader-wrap">
+        <div class="preloader-logo"></div>
+        <div class="preloader-circle"></div>
+    </div>
+</div>
+<script>
+    $(window).on('load', function () { // makes sure the whole site is loaded
+        $('#preloader').delay(350).fadeOut('fast'); // will fade out the white DIV that covers the website.
+        $('html').css({'overflow-y': 'auto'});
+    });
+</script>
+
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<script type="text/javascript">
+    function googleTranslateElementInit() {
+        console.log("h");
+      new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+    
+      var $googleDiv = $("#google_translate_element .skiptranslate");
+      var $googleDivChild = $("#google_translate_element .skiptranslate div");
+      $googleDivChild.next().remove();
+    
+      $googleDiv.contents().filter(function(){
+          return this.nodeType === 3 && $.trim(this.nodeValue) !== '';
+      }).remove();
+    
+    }
+</script>
+
+<!--Navbar-->
+
+<div class="nav-container" id="nav-cont">
+    <nav class="navbar navbar-expand-lg navbar-dark" id="nav">
+        <div>
+            <a href="/graphics-cards/en/" id="nav-logo">
+                <img src="{% static 'assets/img/logo.svg' %}" alt="">
+            </a>
+        </div>
+        <div class="d-lg-none">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar"
+                    aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fa fa-bars"></i>
+            </button>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar">
+            <ul class="navbar-nav ml-auto align-items-center">
+                <li class="nav-item">
+                    <a href="#" class="nav-link">KNOWLEDGE CENTER</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">GENERAL QUERIES</a>
+                </li>
+                <li class="position-relative">
+                    <button class="nav-link drop-button2">
+                        <span>GRAPHIC CARDS</span>
+                        <span class="nav-d-icon"><i class="fa fa-chevron-down"></i></span>
+                    </button>
+                    <ul class="nav-dropdown" id="drop-2">
+                        <!-- <li><a href="ship-now.php" class="nav-link">Create a Shipment</a></li>
+                        <li><a href="get-a-quote.php" class="nav-link">Shipping Rates & Delivery</a></li>
+                        <li><a href="schedule-and-manage-pickups.php" class="nav-link">Schedule & Manage Pickups</a>
+                        </li>
+                        <li><a href="packing.php" class="nav-link">Packing & Shipping</a></li>
+                        <li><a href="manage-return.php" class="nav-link">Manage Return</a></li>
+                        <li><a href="#" class="nav-link">All Shipping Services</a></li> -->
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <!-- <a href="#" class="nav-link">GENERAL QUERIES</a> -->
+                    <div id="google_translate_element"></div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>

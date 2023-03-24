@@ -1,0 +1,28 @@
+<footer>
+    <div class="footer-bottom py-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6" id="copyright">
+                    <div>版权所有 © CurrentCopyrightYear。由...制作
+                        <a href="index.php">Glubble</a>
+                    </div>
+                </div>
+                <div class="col-lg-6 text-right">
+                    <a href="#">关于</a>
+                    <a href="#">隐私政策</a>
+                    <a href="#">接触</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    var dateNow = new Date();
+    var intYear = dateNow.getFullYear();
+
+    $('#copyright').each(function() {
+        var text = $(this).text();
+        $(this).text(text.replace('CurrentCopyrightYear', intYear));
+    });
+</script>
