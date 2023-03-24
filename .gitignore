@@ -104,3 +104,4 @@ venv.bak/
 dmypy.json
 # Pyre type checker
 .pyre/
+core/spin_data.json
