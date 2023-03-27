@@ -192,7 +192,6 @@
          </table>
       </div>
    </div>
-   {% include "fr/cards-comparison.html" %}
    {% include "fr/footer.html" %}
    {% include "script.html" %}
 
@@ -254,13 +253,15 @@
       document.getElementById("compare-btn").addEventListener("click", function (event) {
          event.preventDefault()
          selectElement1=document.querySelector('#btn-1');
-         // console.log(selectElement1.innerHTML)
          // selectElement1 = document.querySelector('#compare-btn-1');
          // selectElement2 = document.querySelector('#compare-btn-2');
          selectElement2=document.querySelector('#btn-2');
          selectElement1=selectElement1.innerHTML
          selectElement2=selectElement2.innerHTML
+         if(selectElement1!=selectElement2 && !selectElement1.match("Changement") && !selectElement2.match("Changement"))
+         {
          window.location.replace("/graphics-cards/fr/" + selectElement1.replace(/\s+/g, '-').toLowerCase() + "-vs-" + selectElement2.replace(/\s+/g, '-').toLowerCase() + "/")
+         }else{alert("both gpu are same so please change any one")}
       });
    </script>
       <script>
@@ -270,7 +271,10 @@
             Element2=document.querySelector('#comp2');
             Element1=Element1.innerHTML
             Element2=Element2.innerHTML
-            window.location.replace("/graphics-cards/fr/" + Element1.replace(/\s+/g, '-').toLowerCase() + "-vs-" + Element2.replace(/\s+/g, '-').toLowerCase() + "/")
+            if(Element1 !=Element2 ){
+               window.location.replace("/graphics-cards/fr/" + Element1.replace(/\s+/g, '-').toLowerCase() + "-vs-" + Element2.replace(/\s+/g, '-').toLowerCase() + "/")
+            }else{alert("both gpu are same so please change any one")}
+            
          });
       </script>
    <script>
@@ -330,23 +334,13 @@
    <script>
       function get_Value_left(obj1) {
          document.getElementById('btn-1').innerHTML = obj1
-
       }
    </script>
       <script>
          function get_Value_Right(obj2) {
             document.getElementById('btn-2').innerHTML = obj2
-   
          }
       </script>
-   
-   <script>
-      // function add_to_compare(obj) {
-      //    console.log(obj)
-      //    document.getElementById('comp1').innerHTML = obj
-
-      // }
-   </script> 
 
 
 

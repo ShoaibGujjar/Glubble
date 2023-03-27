@@ -55,16 +55,16 @@
                         <div class="position-relative">
                             <div class="dropdown mb-3 ctg-dropdown-menu">
                                <button class="btn btn-default-outline dropdown-toggle" type="button"
-                                       id="dropdown-left" data-toggle="dropdown" aria-haspopup="true"
+                                       id="compare_btn_1" data-toggle="dropdown" aria-haspopup="true"
                                        aria-expanded="false">
                                   Changement
                                </button>
                                <div class="dropdown-menu scroll" aria-labelledby="dropdown-left">
                                   {% for obj in data %}
                                   <!-- <a class="dropdown-item" href="#"> -->
-                                  <a class="dropdown-item" href="{{ obj.name }}">
-                                     <img src="{% static 'assets/img/rtx.png' %}" class="dropdown-img" alt="">
-                                     <!-- <img src="{{ obj.brand_image }}" class="dropdown-img" alt=""> -->
+                                  <a class="dropdown-item" href="#" onclick="get_Value_left('{{obj.name}}')">
+                                     <!-- <img src="{% static 'assets/img/rtx.png' %}" class="dropdown-img" alt=""> -->
+                                     <img src="{{ obj.brand_image }}" class="dropdown-img" alt="">
                                      {{ obj.name }}
                                   </a>
                                   {% endfor %}
@@ -105,13 +105,13 @@
                         <div class="position-relative">
                             <div class="dropdown mb-3 ctg-dropdown-menu">
                                <button class="btn btn-default-outline dropdown-toggle" type="button"
-                                       id="dropdown-left" data-toggle="dropdown" aria-haspopup="true"
+                                       id="compare_btn_2" data-toggle="dropdown" aria-haspopup="true"
                                        aria-expanded="false">
                                   Changement
                                </button>
-                               <div class="dropdown-menu scroll" aria-labelledby="dropdown-left">
+                               <div class="dropdown-menu scroll" aria-labelledby="dropdown-right">
                                   {% for obj in data %}
-                                  <a class="dropdown-item" href="#">
+                                  <a class="dropdown-item" href="#" onclick="get_Value_right('{{obj.name}}')">
                                      <img src="{% static 'assets/img/rtx.png' %}" class="dropdown-img" alt="">
                                      <!-- <img src="{{ obj.brand_image }}" class="dropdown-img" alt=""> -->
                                      {{ obj.name }}
@@ -133,7 +133,7 @@
     <div class="container mt-5">
         <div class="ctg-grid specs-grid">
             <div class="ctg-dropdown-wrap">
-                <h3 class="text-center mb-2">{{ obj_0.name }}</h3>
+                <h3 id="gpu_1_name" class="text-center mb-2">{{ obj_0.name }}</h3>
                 <img src="{{ obj_0.gpu_image_name }}"  alt="" class="g-card-img mb-3">
                 <div class="box-shadow specs-box">
                     <div class="row">
@@ -196,7 +196,7 @@
             <div class="ctg-divider"></div>
 
             <div class="ctg-dropdown-wrap">
-                <h3 class="text-center mb-2">{{ obj_1.name }}</h3>
+                <h3 id="gpu_2_name" class="text-center mb-2">{{ obj_1.name }}</h3>
                 <img src="{{ obj_1.gpu_image_name }}"  alt="" class="g-card-img mb-3">
                 <div class="box-shadow specs-box">
                     <div class="row">
@@ -490,7 +490,6 @@
         </div>
     </div>
     </div>
-    {% include "fr/cards-comparison.html" %}
     {% include "fr/footer.html" %}
     {% include "script.html" %}
     <script>
@@ -658,16 +657,38 @@
 
             }
           }
-        </script>
+    </script>
+    <script>
+    function get_Value_left(obj) {
+        document.getElementById('compare_btn_1').innerHTML = obj
+    }
+    </script>
+    <script>
+    function get_Value_right(obj) {
+        document.getElementById('compare_btn_2').innerHTML = obj
+    }
+    </script>
     <script>
     document.getElementById("compare-btn").addEventListener("click", function(event){
         event.preventDefault()
-        selectElement1 = document.querySelector('#compare-btn-1');
-        selectElement2 = document.querySelector('#compare-btn-2');
-        window.location.replace("/graphics-cards/fr/" + selectElement1.value.replace(/\s+/g, '-').toLowerCase()+"-vs-"+selectElement2.value.replace(/\s+/g, '-').toLowerCase() + "/")
+        selectElement1 = document.querySelector('#compare_btn_1');
+        selectElement2 = document.querySelector('#compare_btn_2');
+        selectElement1=selectElement1.innerHTML
+        selectElement2=selectElement2.innerHTML
+        if(selectElement1!=selectElement2 && !selectElement1.match("Changement") && !selectElement2.match("Changement"))
+         {
+         window.location.replace("/graphics-cards/fr/" + selectElement1.replace(/\s+/g, '-').toLowerCase() + "-vs-" + selectElement2.replace(/\s+/g, '-').toLowerCase() + "/")
+         }else{alert("both gpu are same so please change any one")}
+        
       });
     </script>
-
+    <script>
+        window.addEventListener("load", (event) => {
+  document.getElementById('compare_btn_1').innerHTML=document.querySelector('#gpu_1_name').innerHTML
+  document.getElementById('compare_btn_2').innerHTML=document.querySelector('#gpu_2_name').innerHTML
+  var names = document.querySelector('#gpu_1_name');
+});
+    </script>
 </body>
 
 </html>
