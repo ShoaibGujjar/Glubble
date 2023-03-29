@@ -406,8 +406,8 @@
                 let updatedSpeed
 
                 $(window).on('load', function () {
-                    updatedSpeed = Math.round(speed.val() * 180 / 100) - 45;
 
+                    console.log(models)
                     $("#speedbox-score").css("transform", "rotate(" + updatedSpeed + "deg)");
                     console.log(updatedSpeed);
                 });
