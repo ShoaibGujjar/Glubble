@@ -1,0 +1,48 @@
+<div class="container box-shadow my-5 py-3 cards-comparison">
+    <div class="specs-heading">
+        <h3>NVIDIA GeForce RTX 3070 Popular Comparisons</h3>
+        <p class="f-14 text-grey">
+            Find out which of the 2 GPUs performs better, view a side-by-side specification comparison.
+        </p>
+    </div>
+
+    <div class="row mt-5">
+        {% for obj in obj.first_20_instances %}
+        <div class="col-lg-4 col-md-6 mb-3">
+            <button id="compare-btn" class="box-shadow comparison-card card" onclick="Render('{{obj.name}}','{{obj.next_instance.name}}')">  <!-- box-shadow comparison-card -->
+                <div class="c-vs"><span>VS</span></div>
+                <div class="row">
+                    <div class="col-6" >
+                        <img src="{{ obj.brand_image }}" alt="">
+                        <h4 id="gpu1">{{obj.name}}</h4>
+                    </div>
+                    <div class="col-6" >
+                        <img src="{{ obj.next_instance.brand_image }}" alt="">
+                        <h4 id="gpu2">{{obj.next_instance.name}}</h4>
+                    </div>
+                </div> 
+            </button> 
+        </div>
+        {% endfor %}
+        <!-- <div class="col-lg-4 col-md-6 mb-3">
+            <button id="compare-btn" class="box-shadow comparison-card">
+                <div class="c-vs"><span>VS</span></div>
+                <div class="row">
+                    <div class="col-6">
+                        <img src="../../static/assets/img/rtx.png" alt="">
+                        <h4>GeForce RTX 3070</h4>
+                    </div>
+                    <div class="col-6">
+                        <img src="../../static/assets/img/rtx.png" alt="">
+                        <h4>Radeon RX 6700 XT</h4>
+                    </div>
+                </div>
+            </button>
+        </div> -->
+    </div>
+</div>
+<script>
+function Render(obj1,obj2) {
+    window.location.replace("/graphics-cards/fr/" + obj1.replace(/\s+/g, '-').toLowerCase() + "-vs-" + obj2.replace(/\s+/g, '-').toLowerCase() + "/")
+}
+</script>
