@@ -286,23 +286,45 @@ class GPUSpecs(models.Model):
         return data
     
 
+
+
+    # @property
+    # def compare_gpu(self,value):
+    #     compare_data=list()
+    #     # self.id
+    #     if self.id:
+    #         return [name for name, _ in self.equivalent_gpu[0].items()]
+    #     return []
+
+    #     return compare_data
+
+    # @property
+    # def first_20_instances(self):
+    #     name1
+    #     name2
+    #     url
+    #     image1
+    #     image2
+    #     return GPUSpecs.objects.all()[:20]
     @property
-    def above_below_10(self):
-        above_10 = GPUSpecs.objects.filter(my_field__gt=10)[:10]
-        for i, above_10 in enumerate(above_10):
+    def first_20_instances(self):
+        instances = GPUSpecs.objects.all()[:20]
+        for i, instance in enumerate(instances):
             if i < 19:
-                above_10.next_instance = above_10[i+1]
+                instance.next_instance = instances[i+1]
             else:
                 try:
-                    above_10.next_instance = GPUSpecs.objects.all()[10]
+                    instance.next_instance = GPUSpecs.objects.all()[20]
                 except IndexError:
-                    above_10.next_instance = None 
-                    
-        below_10 = GPUSpecs.objects.filter(my_field__lt=10)[:10]
-
-        return list(above_10) + list(below_10)
-    
-
+                    instance.next_instance = None
+        
+        # url1=instance.name.replace(' ', '-')
+        # # url2=instance.next_instance.replace(' ', '-')
+        # url=f"{url1}-vs-{url2}"
+        # instances.append(url=url)
+# return f"{self.name} -- {self.year} -- {self.price} {self.currency}"
+                    # http://127.0.0.1:8000/graphics-cards/fr/nvidia-geforce-rtx-3080-12-gb-vs-nvidia-geforce-rtx-4090/
+        return instances
 
 
     @property
@@ -329,22 +351,6 @@ class GPUSpecs(models.Model):
         return images[key]
     
 
-    @property
-    def compare_gpu(self):
-        instances = GPUSpecs.objects.all()[2:22]
-        for i, instance in enumerate(instances):
-            if i < 19:
-                instance.next_instance = instances[i+1]
-            else:
-                try:
-                    instance.next_instance = GPUSpecs.objects.all()[20]
-                except IndexError:
-                    instance.next_instance = None
-        return instances
+    # @property
+    # def compare_gpu(self):
 
- # url1=instance.name.replace(' ', '-')
-        # # url2=instance.next_instance.replace(' ', '-')
-        # url=f"{url1}-vs-{url2}"
-        # instances.append(url=url)
-# return f"{self.name} -- {self.year} -- {self.price} {self.currency}"
-                    # http://127.0.0.1:8000/graphics-cards/fr/nvidia-geforce-rtx-3080-12-gb-vs-nvidia-geforce-rtx-4090/
