@@ -7,7 +7,7 @@
     </div>
 
     <div class="row mt-5">
-        {% for obj in obj.first_20_instances %}
+        {% for obj in instances.first_20_instances %}
         <div class="col-lg-4 col-md-6 mb-3">
             <button id="compare-btn" class="box-shadow comparison-card card" onclick="Render('{{obj.name}}','{{obj.next_instance.name}}')">  <!-- box-shadow comparison-card -->
                 <div class="c-vs"><span>VS</span></div>
