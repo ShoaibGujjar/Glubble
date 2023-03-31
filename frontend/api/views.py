@@ -29,6 +29,8 @@ class CompareView(TemplateView):
         for idx, obj in enumerate(objs):
             context_data[f'obj_{idx}'] = obj
             context_data[f'obj_{idx}_benchmark_performance'] = obj.benchmark_performance(lang)
+        
+        context_data['obj'] = GPUSpecs.objects.get(id=1)
         return context_data
 
 
@@ -92,10 +94,10 @@ class FrIndexView(IndexView):
     template_name = 'fr/index.html'
     def get_context_data(self, **kwargs):
         context_data = super(IndexView, self).get_context_data(**kwargs)
-        # context_data['data'] = GPUSpecs.objects.order_by('-performance')
-        context_data['instances'] = GPUSpecs.objects.all()
-        # context_data['obj'] = GPUSpecs.objects.filter(name__iexact=kwargs.get('selected', '').replace('-', ' ').lower()).first()
-        # context_data['other_data'] = list(context_data['data'].values('id', 'performance'))
+        context_data['data'] = GPUSpecs.objects.order_by('-performance')
+        context_data['obj'] = GPUSpecs.objects.get(id=1)
+        # print(context_data['data1'])
+        context_data['other_data'] = list(context_data['data'].values('id', 'performance'))
         return context_data
 
 class HiDetailView(DetailView):
