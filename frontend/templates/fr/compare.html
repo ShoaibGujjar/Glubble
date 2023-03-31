@@ -30,7 +30,7 @@
                 <div class="ctg-grid">
                     <div class="ctg-dropdown-wrap">
                         <div>
-                            <img src="{% static 'assets/img/rtx.png' %}" alt="">
+                            <img src="{{ obj_0.brand_image }}" alt="">
                         </div>
                         <div class="text-white">Année {{ obj_0.year }}</div>
                         <div class="my-3">
@@ -51,7 +51,6 @@
                                 <i class="fa fa-angle-down"></i>
                             </div>
                         </div> -->
-
                         <div class="position-relative">
                             <div class="dropdown mb-3 ctg-dropdown-menu">
                                <button class="btn btn-default-outline dropdown-toggle" type="button"
@@ -63,8 +62,7 @@
                                   {% for obj in data %}
                                   <!-- <a class="dropdown-item" href="#"> -->
                                   <a class="dropdown-item" href="#" onclick="get_Value_left('{{obj.name}}')">
-                                     <!-- <img src="{% static 'assets/img/rtx.png' %}" class="dropdown-img" alt=""> -->
-                                     <img src="{{ obj.brand_image }}" class="dropdown-img" alt="">
+                                    <img src="{{ obj.brand_image }}" class="dropdown-img" alt="">
                                      {{ obj.name }}
                                   </a>
                                   {% endfor %}
@@ -80,7 +78,7 @@
                     </div>
                     <div class="ctg-dropdown-wrap">
                         <div>
-                            <img src="{% static 'assets/img/rtx.png' %}" alt="">
+                            <img src="{{ obj_1.brand_image }}" alt="">
                         </div>
                         <div class="text-white">Année {{ obj_1.year }}</div>
                         <div class="my-3">
@@ -112,8 +110,7 @@
                                <div class="dropdown-menu scroll" aria-labelledby="dropdown-right">
                                   {% for obj in data %}
                                   <a class="dropdown-item" href="#" onclick="get_Value_right('{{obj.name}}')">
-                                     <img src="{% static 'assets/img/rtx.png' %}" class="dropdown-img" alt="">
-                                     <!-- <img src="{{ obj.brand_image }}" class="dropdown-img" alt=""> -->
+                                    <img src="{{ obj.brand_image }}" class="dropdown-img" alt="">
                                      {{ obj.name }}
                                   </a>
                                   {% endfor %}

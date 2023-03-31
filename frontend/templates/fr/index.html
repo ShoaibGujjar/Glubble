@@ -76,7 +76,7 @@
 
                         <div class="dropdown-menu scroll" aria-labelledby="dropdown-left">
                            {% for obj in data %}
-                           <a class="dropdown-item" href="#" onclick="get_Value_left('{{obj.name}}')">
+                           <a class="dropdown-item" href="#" onclick="get_Value_left('{{obj.name}}','{{ obj.brand_image }}')">
                               <!-- <img src="{% static 'assets/img/rtx.png' %}" class="dropdown-img" alt=""> -->
                               <img src="{{ obj.brand_image }}" class="dropdown-img" alt="">
                               {{obj.name}}
@@ -110,7 +110,7 @@
                         </button>
                         <div class="dropdown-menu scroll" aria-labelledby="dropdown-right">
                            {% for obj in data %}
-                           <a class="dropdown-item" href="#" onclick="get_Value_Right('{{obj.name}}')">
+                           <a class="dropdown-item" href="#" onclick="get_Value_Right('{{obj.name}}','{{ obj.brand_image }}')">
                               <!-- <img src="{% static 'assets/img/rtx.png' %}" class="dropdown-img" alt=""> -->
                               <img src="{{ obj.brand_image }}" class="dropdown-img" alt="">
                               {{obj.name}}
@@ -239,7 +239,14 @@
          </div>
       </div>
    </div>
-
+   <!-- <div id="1">
+      My Content 1
+  </div>
+  <br>
+  <div id="2" style="display:none;">
+      My Dynamic Content
+  </div>
+  <button id="btnClick">Click me!</button> -->
    <script>
       function addToCompareCart(obj) {
          document.getElementById('comp2').innerHTML=document.getElementById('comp1').innerHTML
@@ -340,6 +347,7 @@
    <script>
       function get_Value_left(obj1) {
          document.getElementById('btn-1').innerHTML = obj1
+
       }
    </script>
       <script>
@@ -362,6 +370,15 @@
         
     }
 </script> -->
+<script>
+$('#btnClick').on('click',function(){
+   if($('#1').css('display')!='none'){
+   $('#2').html('Here is my dynamic content').show().siblings('div').hide();
+   }else if($('#2').css('display')!='none'){
+       $('#1').show().siblings('div').hide();
+   }
+});
+</script>
 </body>
 
 </html>
