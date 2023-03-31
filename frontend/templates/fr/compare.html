@@ -140,7 +140,7 @@
                         <div class="col-6">
                             <div class="specs-text">
                                 <h5>Date de sortie</h5>
-                                <div> Year {{ obj_0.year }} </div>
+                                <div id="gpu_1_data"> Year {{ obj_0.year }} </div>
                             </div>
                             <div class="specs-text">
                                 <h5>Génération</h5>
@@ -166,7 +166,7 @@
                         <div class="col-6">
                             <div class="specs-text">
                                 <h5>Bus mémoire</h5>
-                                <div>{{ obj_0.memory_bus_width }}</div>
+                                <div id="bus1_memory">{{ obj_0.memory_bus_width }}</div>
                             </div>
                             <div class="specs-text">
                                 <h5>Vitesse d'horloge de base</h5>
@@ -203,7 +203,7 @@
                         <div class="col-6">
                             <div class="specs-text">
                                 <h5>Date de sortie</h5>
-                                <div> Year {{ obj_1.year }} </div>
+                                <div id="gpu_2_data" > Year {{ obj_1.year }} </div>
                             </div>
                             <div class="specs-text">
                                 <h5>Génération</h5>
@@ -685,10 +685,27 @@
     </script>
     <script>
         window.addEventListener("load", (event) => {
-  document.getElementById('compare_btn_1').innerHTML=document.querySelector('#gpu_1_name').innerHTML
-  document.getElementById('compare_btn_2').innerHTML=document.querySelector('#gpu_2_name').innerHTML
-  var names = document.querySelector('#gpu_1_name');
-});
+        document.getElementById('compare_btn_1').innerHTML=document.querySelector('#gpu_1_name').innerHTML
+        document.getElementById('compare_btn_2').innerHTML=document.querySelector('#gpu_2_name').innerHTML
+        var names = document.querySelector('#gpu_1_name');
+        });
+    </script>
+    <script>
+        window.addEventListener("load", (event) => {
+            if ({{ obj_0.year }}>{{obj_1.year}})
+            {
+                let gpu_1_data = document.getElementById("gpu_1_data");
+                gpu_1_data.style.color = 'green';
+            }elseif({{ obj_0.year }}<{{obj_1.year}}){
+                let gpu_2_data = document.getElementById("gpu_2_data"); 
+            gpu_2_data.style.color = 'green';
+            }
+
+            // let gpu_1_data = document.getElementById("gpu_1_data"); 
+            // gpu_1_data.style.color = 'green';
+            // console.log(date)
+        });
+        
     </script>
 </body>
 

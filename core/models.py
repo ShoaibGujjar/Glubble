@@ -284,6 +284,48 @@ class GPUSpecs(models.Model):
             for card, process in zip(self.similar_gpu, self.rec_processor):
                 data.append(dict(name=card, processor=process))
         return data
+    
+
+
+
+    # @property
+    # def compare_gpu(self,value):
+    #     compare_data=list()
+    #     # self.id
+    #     if self.id:
+    #         return [name for name, _ in self.equivalent_gpu[0].items()]
+    #     return []
+
+    #     return compare_data
+
+    # @property
+    # def first_20_instances(self):
+    #     name1
+    #     name2
+    #     url
+    #     image1
+    #     image2
+    #     return GPUSpecs.objects.all()[:20]
+    @property
+    def first_20_instances(self):
+        instances = GPUSpecs.objects.all()[:20]
+        for i, instance in enumerate(instances):
+            if i < 19:
+                instance.next_instance = instances[i+1]
+            else:
+                try:
+                    instance.next_instance = GPUSpecs.objects.all()[20]
+                except IndexError:
+                    instance.next_instance = None
+        
+        # url1=instance.name.replace(' ', '-')
+        # # url2=instance.next_instance.replace(' ', '-')
+        # url=f"{url1}-vs-{url2}"
+        # instances.append(url=url)
+# return f"{self.name} -- {self.year} -- {self.price} {self.currency}"
+                    # http://127.0.0.1:8000/graphics-cards/fr/nvidia-geforce-rtx-3080-12-gb-vs-nvidia-geforce-rtx-4090/
+        return instances
+
 
     @property
     def gpu_image_name(self):
@@ -307,3 +349,8 @@ class GPUSpecs(models.Model):
         elif 'intel' in self.name.lower():
             key = 'intel'
         return images[key]
+    
+
+    # @property
+    # def compare_gpu(self):
+

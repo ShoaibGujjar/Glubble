@@ -90,7 +90,13 @@ class FrCompareView(CompareView):
 
 class FrIndexView(IndexView):
     template_name = 'fr/index.html'
-
+    def get_context_data(self, **kwargs):
+        context_data = super(IndexView, self).get_context_data(**kwargs)
+        # context_data['data'] = GPUSpecs.objects.order_by('-performance')
+        context_data['instances'] = GPUSpecs.objects.all()
+        # context_data['obj'] = GPUSpecs.objects.filter(name__iexact=kwargs.get('selected', '').replace('-', ' ').lower()).first()
+        # context_data['other_data'] = list(context_data['data'].values('id', 'performance'))
+        return context_data
 
 class HiDetailView(DetailView):
     template_name = 'hi/info.html'
