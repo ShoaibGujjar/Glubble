@@ -7,7 +7,7 @@
     </div>
 
     <div class="row mt-5">
-        {% for obj in instances.first_20_instances %}
+        {% for obj in obj.compare_gpu %}
         <div class="col-lg-4 col-md-6 mb-3">
             <button id="compare-btn" class="box-shadow comparison-card card" onclick="Render('{{obj.name}}','{{obj.next_instance.name}}')">  <!-- box-shadow comparison-card -->
                 <div class="c-vs"><span>VS</span></div>
@@ -24,6 +24,14 @@
             </button> 
         </div>
         {% endfor %}
+        <!-- <div>
+         
+            {% for obj in data1 %}
+            {{obj.name}}
+            {% endfor %}
+        </div> -->
+        
+        
         <!-- <div class="col-lg-4 col-md-6 mb-3">
             <button id="compare-btn" class="box-shadow comparison-card">
                 <div class="c-vs"><span>VS</span></div>
@@ -45,4 +53,7 @@
 function Render(obj1,obj2) {
     window.location.replace("/graphics-cards/fr/" + obj1.replace(/\s+/g, '-').toLowerCase() + "-vs-" + obj2.replace(/\s+/g, '-').toLowerCase() + "/")
 }
+</script>
+<script>
+     window.addEventListener("load", (event) => {});
 </script>

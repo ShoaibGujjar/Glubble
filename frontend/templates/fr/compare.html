@@ -140,7 +140,11 @@
                         <div class="col-6">
                             <div class="specs-text">
                                 <h5>Date de sortie</h5>
+                                {% if obj_0.year > obj_1.year %}
+                                <div style="color: green;"id="gpu_1_data"> Year {{ obj_0.year }} </div>
+                                {% else %}
                                 <div id="gpu_1_data"> Year {{ obj_0.year }} </div>
+                                {% endif %}
                             </div>
                             <div class="specs-text">
                                 <h5>Génération</h5>
@@ -156,37 +160,71 @@
                             </div>
                             <div class="specs-text">
                                 <h5>Taille mémoire</h5>
-                                <div>{{ obj_0.memory_size }}</div>
+                                {% if obj_0.memory_size > obj_1.memory_size %}
+                                <div style="color:green;">{{ obj_0.memory_size }}</div>
+                                {% else %}
+                                <div >{{ obj_0.memory_size }}</div>
+                                {% endif %}
+                                
                             </div>
                             <div class="specs-text">
                                 <h5>Bande passante</h5>
+                                {% if obj_0.memory_bandwidth > obj_1.memory_bandwidth %}
+                                <div style="color:green;" >{{ obj_0.memory_bandwidth }}</div>
+                                {% else %}
                                 <div>{{ obj_0.memory_bandwidth }}</div>
+                                {% endif %}
+
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="specs-text">
                                 <h5>Bus mémoire</h5>
+                                {% if obj_0.memory_bus_width > obj_1.memory_bus_width%}
+                                <div style="color:green ;" id="bus1_memory">{{ obj_0.memory_bus_width }}</div>
+                                {% else %}
                                 <div id="bus1_memory">{{ obj_0.memory_bus_width }}</div>
+                                {% endif %}
                             </div>
                             <div class="specs-text">
                                 <h5>Vitesse d'horloge de base</h5>
+                                {% if obj_0.core_clock_speed > obj_1.core_clock_speed %}
+                                <div style="color:green ;">{{ obj_0.core_clock_speed }}</div>
+                                {% else %}
                                 <div>{{ obj_0.core_clock_speed }}</div>
+                                {% endif %}
                             </div>
                             <div class="specs-text">
                                 <h5>Augmenter la vitesse d'horloge</h5>
+                                {% if obj_0.boost_clock_speed > obj_1.boost_clock_speed %}
+                                <div style="color:green ;">{{ obj_0.boost_clock_speed }}</div>
+                                {% else %}
                                 <div>{{ obj_0.boost_clock_speed }}</div>
+                                {% endif %}
                             </div>
                             <div class="specs-text">
                                 <h5>Vitesse d'horloge de la mémoire</h5>
+                                {% if obj_0.memory_clock_speed > obj_1.memory_clock_speed %}
+                                <div style="color:green ;">{{ obj_0.memory_clock_speed }}</div>
+                                {% else %}
                                 <div>{{ obj_0.memory_clock_speed }}</div>
+                                {% endif %}
                             </div>
                             <div class="specs-text">
                                 <h5>TDP</h5>
+                                {% if obj_0.thermal_design_power > obj_1.thermal_design_power %}
+                                <div style="color:green ;">{{ obj_0.thermal_design_power }}</div>
+                                {% else %}
                                 <div>{{ obj_0.thermal_design_power }}</div>
+                                {% endif %}
                             </div>
                             <div class="specs-text">
+                                {% if obj_0.chip_lithography > obj_1.chip_lithography %}
+                                <div style="color:green ;">{{ obj_0.chip_lithography }}</div>
+                                {% else %}
                                 <h5>Lithographie sur puce</h5>
                                 <div>{{ obj_0.chip_lithography }}</div>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -203,7 +241,11 @@
                         <div class="col-6">
                             <div class="specs-text">
                                 <h5>Date de sortie</h5>
+                                {% if obj_1.year > obj_0.year  %}
+                                <div style="color:green;" id="gpu_2_data" > Year {{ obj_1.year }} </div>
+                                {% else %}
                                 <div id="gpu_2_data" > Year {{ obj_1.year }} </div>
+                                {% endif %}
                             </div>
                             <div class="specs-text">
                                 <h5>Génération</h5>
@@ -219,37 +261,69 @@
                             </div>
                             <div class="specs-text">
                                 <h5>Taille mémoire</h5>
-                                <div>{{ obj_1.memory_size }}</div>
+                                {% if obj_1.memory_size > obj_0.memory_size %}
+                                <div style="color:green;" >{{ obj_1.memory_size }}</div>
+                                {% else %}
+                                <div >{{ obj_1.memory_size }}</div>
+                                {% endif %}
                             </div>
                             <div class="specs-text">
                                 <h5>Bande passante</h5>
+                                {% if obj_1.memory_bandwidth > obj_0.memory_bandwidth %}
+                                <div style="color:green;" >{{ obj_1.memory_bandwidth }}</div>
+                                {% else %}
                                 <div>{{ obj_1.memory_bandwidth }}</div>
+                                {% endif %}
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="specs-text">
                                 <h5>Bus mémoire</h5>
-                                <div>{{ obj_1.memory_bus_width }}</div>
+                                {% if obj_1.memory_bus_width > obj_0.memory_bus_width %}
+                                <div style="color:green;" >{{ obj_1.memory_bus_width }}</div>
+                                {% else %}
+                                <div id="bus2_memory">{{ obj_1.memory_bus_width }}</div>
+                                {% endif %}
                             </div>
                             <div class="specs-text">
                                 <h5>Vitesse d'horloge de base</h5>
+                                {% if obj_1.core_clock_speed > obj_0.core_clock_speed %}
+                                <div style="color:green;" >{{ obj_1.core_clock_speed }}</div>
+                                {% else %}
                                 <div>{{ obj_1.core_clock_speed }}</div>
+                                {% endif %}
                             </div>
                             <div class="specs-text">
                                 <h5>Augmenter la vitesse d'horloge</h5>
+                                {% if obj_1.boost_clock_speed > obj_0.boost_clock_speed %}
+                                <div style="color:green;" >{{ obj_1.boost_clock_speed }}</div>
+                                {% else %}
                                 <div>{{ obj_1.boost_clock_speed }}</div>
+                                {% endif %}
                             </div>
                             <div class="specs-text">
                                 <h5>Vitesse d'horloge de la mémoire</h5>
+                                {% if obj_1.memory_clock_speed > obj_0.memory_clock_speed %}
+                                <div style="color:green;" >{{ obj_1.memory_clock_speed }}</div>
+                                {% else %}
                                 <div>{{ obj_1.memory_clock_speed }}</div>
+                                {% endif %}
                             </div>
                             <div class="specs-text">
                                 <h5>TDP</h5>
+                                {% if obj_1.thermal_design_power > obj_0.thermal_design_power %}
+                                <div style="color:green;" >{{ obj_1.thermal_design_power }}</div>
+                                {% else %}
                                 <div>{{ obj_1.thermal_design_power }}</div>
+                                {% endif %}
                             </div>
                             <div class="specs-text">
                                 <h5>Lithographie sur puce</h5>
+                                {% if obj_1.chip_lithography > obj_0.chip_lithography %}
+                                <div style="color:green;" >{{ obj_1.chip_lithography }}</div>
+                                {% else %}
                                 <div>{{ obj_1.chip_lithography }}</div>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -691,21 +765,9 @@
         });
     </script>
     <script>
-        window.addEventListener("load", (event) => {
-            if ({{ obj_0.year }}>{{obj_1.year}})
-            {
-                let gpu_1_data = document.getElementById("gpu_1_data");
-                gpu_1_data.style.color = 'green';
-            }elseif({{ obj_0.year }}<{{obj_1.year}}){
-                let gpu_2_data = document.getElementById("gpu_2_data"); 
-            gpu_2_data.style.color = 'green';
-            }
-
-            // let gpu_1_data = document.getElementById("gpu_1_data"); 
-            // gpu_1_data.style.color = 'green';
-            // console.log(date)
-        });
-        
+        window.onload = (event) => {
+        console.log("page is fully loaded");
+        };
     </script>
 </body>
 

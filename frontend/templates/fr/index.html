@@ -192,7 +192,11 @@
          </table>
       </div>
    </div>
-   
+   <div>
+      {% for obj in data1.compare_gpu %}
+      {{obj.name}}
+      {% endfor %}
+   </div>
    {% include "fr/cards-comparison.html" %}
    {% include "fr/footer.html" %}
    {% include "script.html" %}
