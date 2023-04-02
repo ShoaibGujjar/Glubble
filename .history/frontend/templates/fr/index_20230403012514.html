@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+{% load static %}
+{% include "head.html" %}
+
+<style>
+   #example_wrapper .row {
+      align-items: center;
+   }
+
+   #example_filter {
+      text-align: right;
+   }
+
+   #example_filter label {
+      text-align: left;
+   }
+
+   .page-item.active .page-link {
+      z-index: 1;
+      color: #fff;
+      background-color: #8205e8;
+      border-color: #8205e8;
+   }
+
+   .page-link {
+      color: #8205e8
+   }
+
+   .page-link:hover {
+      color: #8205e8
+   }
+
+   .page-link:focus {
+      box-shadow: none;
+   }
+
+   .VIpgJd-ZVi9od-ORHb-OEVmcd {
+      visibility: hidden !important;
+   }
+</style>
+
+<!-- <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script> -->
+
+<body>
+   {% include "fr/nav.html" %}
+   <div class="container">
+      <div class="ctg-hr"></div>
+      <div class="ctg-wrap">
+         <div class="ctg-heading-wrap">
+            <div><img src="{% static 'assets/img/ctg.png' %}" alt=""></div>
+            <div class="ctg-heading">Comparez Deux GPU</div>
+         </div>
+         <form>
+            <div class="ctg-grid">
+               <div class="ctg-dropdown-wrap">
+                  <div class="mb-5">
+                     <img src="{% static 'assets/img/ctg-inner.PNG' %}" alt="" id="compare-header-1">
+                  </div>
+                  <div class="position-relative">
+
+                     <div class="dropdown mb-3 ctg-dropdown-menu">
+                        <button class="btn btn-default-outline dropdown-toggle" type="button" id="btn-1"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                           Changement
+                        </button>
+
+                        <div class="dropdown-menu scroll" aria-labelledby="dropdown-left">
+                           {% for obj in data %}
+                           <a class="dropdown-item" href="#"
+                              onclick="get_Value_left('{{obj.name}}','{{ obj.brand_image }}')">
+                              <!-- <img src="{% static 'assets/img/rtx.png' %}" class="dropdown-img" alt=""> -->
+                              <img src="{{ obj.brand_image }}" class="dropdown-img" alt="">
+                              {{obj.name}}
+                           </a>
+                           {% endfor %}
+                        </div>
+                     </div>
+
+                  </div>
+               </div>
+               <div class="ctg-divider">
+                  <div class="vs">
+                     <div class="vs-text">VS</div>
+                  </div>
+               </div>
+               <div class="ctg-dropdown-wrap">
+                  <div class="mb-5">
+                     <img src="{% static 'assets/img/ctg-inner.PNG' %}" alt="" id="compare-header-2">
+                  </div>
+                  <div class="position-relative">
+                     <!--<select class="form-control custom-select scroll" id="compare-btn-2">-->
+                     <!--{% for obj in data %}-->
+                     <!--<option>{{ obj.name }}</option>-->
+                     <!--{% endfor %}-->
+                     <!--</select>-->
+
+                     <div class="dropdown mb-3 ctg-dropdown-menu">
+                        <button class="btn btn-default-outline dropdown-toggle" type="button" id="btn-2"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                           Changement
+                        </button>
+                        <div class="dropdown-menu scroll" aria-labelledby="dropdown-right">
+                           {% for obj in data %}
+                           <a class="dropdown-item" href="#"
+                              onclick="get_Value_Right('{{obj.name}}','{{ obj.brand_image }}')">
+                              <!-- <img src="{% static 'assets/img/rtx.png' %}" class="dropdown-img" alt=""> -->
+                              <img src="{{ obj.brand_image }}" class="dropdown-img" alt="">
+                              {{obj.name}}
+                           </a>
+                           {% endfor %}
+                        </div>
+                     </div>
+                     <div class="arrow-abs">
+                        <i class="fa fa-angle-down"></i>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="mt-3 text-center">
+               <button id="compare-btn" class="btn-default">COMPARER</button>
+            </div>
+         </form>
+      </div>
+   </div>
+   <div class="container box-shadow my-5 py-3">
+      <div class="filters-wrap pb-3">
+         <div class="row align-items-center">
+            <div class="col-md-4 m-auto">
+               <!-- <div class="price-range-slider ml">
+                     <p class="range-value">
+                        <input type="text" id="amount" readonly>
+                     </p>
+                     <div id="slider-range" class="range-bar"></div>
+                  </div> -->
+            </div>
+         </div>
+      </div>
+      <div class="">
+         <table id="example" class="table ctg-table table-hover" style="width:100%">
+            <thead>
+               <tr>
+                  <th>Marque</th>
+                  <th>Nom<span class="arrow-table">
+                        <i class="fa fa-caret-down"></i>
+                     </span></th>
+                  <th>Performance<span class="arrow-table">
+                        <i class="fa fa-caret-down"></i>
+                     </span></th>
+                  <th>Date de sortie<span class="arrow-table">
+                        <i class="fa fa-caret-down"></i>
+                     </span></th>
+                  <th>Prix</th>
+               </tr>
+            </thead>
+            <tbody>
+               {% for obj in data %}
+               <tr>
+                  <!-- <td><a href="/graphics-cards/fr/{{obj.url_name|lower}}/"><img src="{% static 'assets/img/rtx.png' %}" alt="" class="t-img"><span class="table-hover-abs"><button>Select to Compare</button></span></a></td> -->
+                  <td><a href="/graphics-cards/fr/{{obj.url_name|lower}}/"><img src="{{ obj.brand_image }}" alt=""
+                           class="t-img"></a><span class="table-hover-abs"><button
+                           onclick="addToCompareCart('{{obj.name}}')">Select
+                           to Compare</button></span></td>
+                  <td><a href="/graphics-cards/fr/{{obj.url_name|lower}}/"> {{obj.name}}</a></td>
+                  <td>
+                     <input id="{{ obj.id }}" type="text" value="{{ obj.performance }}" class="d-none" />
+                     <div class="speedbox">
+                        <div class="speedbox__score" id="speedbox-score-{{ obj.id }}"></div>
+                        <div class="speedbox__groove"></div>
+                        <div class="speedbox__base"></div>
+                        <div class="speed-text"><span>{{ obj.performance }}</span>%</div>
+                     </div>
+                  </td>
+                  <td>Année {{ obj.year }}</td>
+                  <td>
+                     <a href="{{ obj.amzn_link }}" class="p-wrap">
+                        <!-- <img src="{% static 'assets/img/amazon.png' %}" alt=""> -->
+                        <!-- <span class="p-text">Disponible sur Amazon ${{ obj.price }}</span> -->
+                        <!-- <span class="p-text">Disponible sur Amazon</span> -->
+                        <span class="p-text">Buy Now</span>
+                     </a>
+                  </td>
+               </tr>
+               {% endfor %}
+            </tbody>
+         </table>
+      </div>
+   </div>
+   <div>
+      {% for obj in data1.compare_gpu %}
+      {{obj.name}}
+      {% endfor %}
+   </div>
+   {% include "fr/cards-comparison.html" %}
+   {% include "fr/footer.html" %}
+   {% include "script.html" %}
+
+   <div class="compare-fixed-container">
+      <div class="text-right">
+         <button class="fixed-btn" id="compare-btn-fixed"><i class="fa fa-arrow-left" id="compare-icon"></i></button>
+      </div>
+      <div class="compare-fixed-wrap-cont" id="compare-fixed-wrap">
+         <div class="compare-fixed-wrap" id="compareCart">
+            <div class="compare-card">
+               <div class="compare-img">
+                  <img src="{% static 'assets/img/rtx.png' %}" alt="" id="compare-modal-1">
+               </div>
+               <div class="compare-text">
+                  <h6 id="comp1">Add Graphics card from table</h6>
+               </div>
+               <!-- <div class="compare-text text-center w-100">
+                  <h6 id="comp1">Add Graphics card from table</h6>
+               </div> -->
+            </div>
+
+            <div class="compare-vs">
+               VS
+            </div>
+
+            <div class="compare-card">
+               <div class="compare-img">
+                  <img src="{% static 'assets/img/rtx.png' %}" alt="" id="compare-modal-2">
+               </div>
+               <div class="compare-text">
+                  <h6 id="comp2">GeForce RTX 3060</h6>
+               </div>
+            </div>
+
+            <div class="mt-3 text-center">
+               <!-- <button id="compare-btn" class="btn-default">COMPARER</button> -->
+               <button id="compare-gpu" class="btn-default">Compare</button>
+            </div>
+         </div>
+      </div>
+   </div>
+   <!-- <div id="1">
+      My Content 1
+  </div>
+  <br>
+  <div id="2" style="display:none;">
+      My Dynamic Content
+  </div>
+  <button id="btnClick">Click me!</button> -->
+   <script>
+      if (localStorage.getItem("gpu1") != "") {
+         localStorage.setItem("gpu1", "Add Graphics card from table");
+      }
+      if (localStorage.getItem("gpu2") != "") {
+         localStorage.setItem("gpu2", "Add Graphics card from table");
+      }
+
+      // localStorage.setItem("gpu2", "Add Graphics card from table");
+
+      function addToCompareCart(obj) {
+         document.getElementById('comp2').innerHTML = document.getElementById('comp1').innerHTML
+         document.getElementById('comp1').innerHTML = obj
+         var x1 = document.getElementById("comp1").innerHTML;
+         localStorage.setItem("gpu1", x1);
+         var x2 = document.getElementById("comp2").innerHTML;
+         localStorage.setItem("gpu2", x2);
+
+
+         if (x1.includes("AMD")) {
+            document.getElementById('compare-modal-1').src = "/static/assets/img/amd.png"
+         }
+         else if (x1.includes("NVIDIA")) {
+            document.getElementById('compare-modal-1').src = "/static/assets/img/navidia.png"
+         }
+         else if (x1.includes("ATI")) {
+            document.getElementById('compare-modal-1').src = "/static/assets/img/ati.png"
+         }
+         else if (x1.includes("Intel")) {
+            document.getElementById('compare-modal-1').src = "/static/assets/img/intel.png"
+         }
+
+         if (x2.includes("AMD")) {
+            document.getElementById('compare-modal-2').src = "/static/assets/img/amd.png"
+         }
+         else if (x2.includes("NVIDIA")) {
+            document.getElementById('compare-modal-2').src = "/static/assets/img/navidia.png"
+         }
+         else if (x2.includes("ATI")) {
+            document.getElementById('compare-modal-2').src = "/static/assets/img/ati.png"
+         }
+         else if (x2.includes("Intel")) {
+            document.getElementById('compare-modal-2').src = "/static/assets/img/intel.png"
+         }
+
+         // let new_html = "<h6>GeForce RTX 3060</h6>";
+         // document.getElementById("#compareCart").innerHTML += new_html;
+      }
+   </script>
+
+
+   <script>
+      document.getElementById("compare-btn").addEventListener("click", function (event) {
+         event.preventDefault()
+         selectElement1 = document.querySelector('#btn-1');
+         // selectElement1 = document.querySelector('#compare-btn-1');
+         // selectElement2 = document.querySelector('#compare-btn-2');
+         selectElement2 = document.querySelector('#btn-2');
+         selectElement1 = selectElement1.innerHTML
+         selectElement2 = selectElement2.innerHTML
+         if (selectElement1 != selectElement2 && !selectElement1.match("Changement") && !selectElement2.match("Changement")) {
+            window.location.replace("/graphics-cards/fr/" + selectElement1.replace(/\s+/g, '-').toLowerCase() + "-vs-" + selectElement2.replace(/\s+/g, '-').toLowerCase() + "/")
+         } else { alert("both gpu are same so please change any one") }
+      });
+   </script>
+
+   <script>
+      document.getElementById("compare-gpu").addEventListener("click", function (event) {
+         event.preventDefault()
+         Element1 = document.querySelector('#comp1');
+         Element2 = document.querySelector('#comp2');
+         Element1 = Element1.innerHTML
+         Element2 = Element2.innerHTML
+         if (Element1 != Element2) {
+            window.location.replace("/graphics-cards/fr/" + Element1.replace(/\s+/g, '-').toLowerCase() + "-vs-" + Element2.replace(/\s+/g, '-').toLowerCase() + "/")
+         } else { alert("both gpu are same so please change any one") }
+
+      });
+   </script>
+
+   <script>
+      let speed = $("#speed");
+      let updatedSpeed
+
+      $(window).on('load', function () {
+         updatedSpeed = Math.round(speed.val() * 180 / 100) - 45;
+
+         $("#speedbox-score").css("transform", "rotate(" + updatedSpeed + "deg)");
+         console.log(updatedSpeed);
+      });
+      let data = {{ other_data| safe }}
+      for (let i = 0; i < data.length; i++) {
+         var n = data[i]
+         let speed = $("#" + n.id);
+         let updatedSpeedd
+         updatedSpeedd = Math.round(n.performance * 180 / 100) - 45;
+         $("#speedbox-score-" + n.id).css("transform", "rotate(" + updatedSpeedd + "deg)");
+      }
+
+   </script>
+
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js"></script>
+   <script>
+      //-----JS for Price Range slider-----
+
+      $(function () {
+         $("#slider-range").slider({
+            range: true,
+            min: 130,
+            max: 500,
+            values: [130, 250],
+            slide: function (event, ui) {
+               $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
+            }
+         });
+         $("#amount").val("$" + $("#slider-range").slider("values", 0) +
+            " - $" + $("#slider-range").slider("values", 1));
+      });
+   </script>
+
+   <script>
+      $(document).ready(function () {
+         $('#example').DataTable();
+      });
+   </script>
+   <script>
+      $('#compare-btn-fixed').click(function () {
+         $('#compare-fixed-wrap').toggleClass('compare-fixed-width');
+         $('#compare-icon').toggleClass('fa-arrow-right fa-arrow-left');
+         document.getElementById("comp1").innerHTML = localStorage.getItem("gpu1");
+         document.getElementById("comp2").innerHTML = localStorage.getItem("gpu2");
+      })
+
+
+   </script>
+
+   <script>
+      function get_Value_left(obj1, obj2) {
+         document.getElementById('btn-1').innerHTML = obj1
+         document.getElementById('compare-header-1').src = obj2
+
+      }
+   </script>
+   <script>
+      function get_Value_Right(obj1, obj2) {
+         document.getElementById('btn-2').innerHTML = obj1
+         document.getElementById('compare-header-2').src = obj2
+      }
+   </script>
+
+
+
+   <!-- <script>
+    function changeValue()
+    {
+   
+      Element1 = document.querySelector('#get-btn-1');
+      // console.log(Element1.innerHTML)
+      e=function get_Value(obj1)
+      console.log(e)
+      document.getElementById('btn-1').innerHTML =function get_Value(obj1)
+        
+    }
+</script> -->
+   <script>
+      $('#btnClick').on('click', function () {
+         if ($('#1').css('display') != 'none') {
+            $('#2').html('Here is my dynamic content').show().siblings('div').hide();
+         } else if ($('#2').css('display') != 'none') {
+            $('#1').show().siblings('div').hide();
+         }
+      });
+   </script>
+</body>
+
+</html>
