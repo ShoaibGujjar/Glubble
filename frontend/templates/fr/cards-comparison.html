@@ -8,53 +8,103 @@
     </div>
 
     <div class="row mt-5">
+        {% if request.path == '/graphics-cards/fr/' %}
         {% for obj in obj.compare_gpu %}
         <div class="col-lg-4 col-md-6 mb-3">
-            <button id="compare-btn" class="box-shadow comparison-card card" onclick="Render('{{obj.name}}','{{obj.next_instance.name}}')">  <!-- box-shadow comparison-card -->
+            <button id="compare-btn" class="box-shadow comparison-card card"
+                onclick="Render('{{obj.name}}','{{obj.next_instance.name}}')"> <!-- box-shadow comparison-card -->
                 <div class="c-vs"><span>VS</span></div>
                 <div class="row">
-                    <div class="col-6" >
+                    <div class="col-6">
                         <img src="{{ obj.brand_image }}" alt="">
                         <h4 id="gpu1">{{obj.name}}</h4>
                     </div>
-                    <div class="col-6" >
+                    <div class="col-6">
                         <img src="{{ obj.next_instance.brand_image }}" alt="">
                         <h4 id="gpu2">{{obj.next_instance.name}}</h4>
                     </div>
-                </div> 
-            </button> 
+                </div>
+            </button>
         </div>
         {% endfor %}
-        <!-- <div>
-         
-            {% for obj in data1 %}
-            {{obj.name}}
-            {% endfor %}
-        </div> -->
-        
-        
-        <!-- <div class="col-lg-4 col-md-6 mb-3">
-            <button id="compare-btn" class="box-shadow comparison-card">
+        <!-- request.path == '/graphics-cards/fr/{{obj.url_name|lower}}/' -->
+
+        {% elif obj.url_name %}
+        {% for obj_comp in obj.above_below_10 %}
+        <div class="col-lg-4 col-md-6 mb-3">
+            <button id="compare-btn" class="box-shadow comparison-card"
+                onclick="Render('{{obj.name}}','{{obj_comp.name}}')">
                 <div class="c-vs"><span>VS</span></div>
                 <div class="row">
                     <div class="col-6">
-                        <img src="../../static/assets/img/rtx.png" alt="">
-                        <h4>GeForce RTX 3070</h4>
+                        <img src="{{ obj.brand_image }}" alt="">
+                        <h4>{{obj.name}}</h4>
                     </div>
+                    
                     <div class="col-6">
-                        <img src="../../static/assets/img/rtx.png" alt="">
-                        <h4>Radeon RX 6700 XT</h4>
+                        <img src="{{ obj_comp.brand_image }}" alt="">
+                        <h4>{{obj_comp.name}}</h4>
                     </div>
                 </div>
             </button>
-        </div> -->
+        </div>
+        {% endfor %}
+
+        {% else %}
+
+        {% for obj_comp in obj_0.compare_gpu_10 %}
+        <div class="col-lg-4 col-md-6 mb-3">
+            <button id="compare-btn" class="box-shadow comparison-card"
+                onclick="Render('{{obj_0.name}}','{{obj_comp.name}}')">
+                <div class="c-vs"><span>VS</span></div>
+                <div class="row">
+                    <div class="col-6">
+                        <img src="{{ obj_0.brand_image }}" alt="">
+                        <h4>{{obj_0.name}}</h4>
+                    </div>
+                    
+                    <div class="col-6">
+                        <img src="{{ obj_comp.brand_image }}" alt="">
+                        <h4>{{obj_comp.name}}</h4>
+                    </div>
+                </div>
+            </button>
+        </div>
+        {% endfor %}
+
+        {% for obj_comp in obj_1.compare_gpu_10 %}
+        <div class="col-lg-4 col-md-6 mb-3">
+            <button id="compare-btn" class="box-shadow comparison-card"
+                onclick="Render('{{obj_1.name}}','{{obj_comp.name}}')">
+                <div class="c-vs"><span>VS</span></div>
+                <div class="row">
+                    <div class="col-6">
+                        <img src="{{ obj_1.brand_image }}" alt="">
+                        <h4>{{obj_1.name}}</h4>
+                    </div>
+                    
+                    <div class="col-6">
+                        <img src="{{ obj_comp.brand_image }}" alt="">
+                        <h4>{{obj_comp.name}}</h4>
+                    </div>
+                    
+                </div>
+            </button>
+        </div>
+        {% endfor %}
+        
+        {% endif %}
     </div>
+
 </div>
 <script>
 function Render(obj1,obj2) {
     window.location.replace("/graphics-cards/fr/" + obj1.replace(/\s+/g, '-').toLowerCase() + "-vs-" + obj2.replace(/\s+/g, '-').toLowerCase() + "/")
 }
 </script>
+
 <script>
-     window.addEventListener("load", (event) => {});
+    var currentLocation = window.location.href;
+    let substringToRemove = "http://127.0.0.1:8000/";
+    let modifiedString = originalString.replace(new RegExp(substringToRemove, "g"), "");
 </script>

@@ -225,6 +225,10 @@ class GPUSpecs(models.Model):
     @property
     def url_name(self):
         return self.name.replace(' ', '-')
+    
+    @property
+    def gpu_url(self):
+        return self.name.replace(' ', '-').lower()  
 
     def benchmark_performance(self, lang='en'):
         if self.tests:
@@ -337,9 +341,24 @@ class GPUSpecs(models.Model):
                     instance.next_instance = None
         return instances
 
- # url1=instance.name.replace(' ', '-')
-        # # url2=instance.next_instance.replace(' ', '-')
-        # url=f"{url1}-vs-{url2}"
-        # instances.append(url=url)
-# return f"{self.name} -- {self.year} -- {self.price} {self.currency}"
-                    # http://127.0.0.1:8000/graphics-cards/fr/nvidia-geforce-rtx-3080-12-gb-vs-nvidia-geforce-rtx-4090/
+    @property
+    def above_below_10(self):
+        above_10 = GPUSpecs.objects.filter(performance__gt=self.performance)[:10]
+        make_20=20-len(above_10)
+        below_10 = GPUSpecs.objects.filter(performance__lt=self.performance)[:make_20]
+        if len(above_10)+len(below_10) != 20:
+            make_20=20-len(below_10)
+            above=GPUSpecs.objects.filter(performance__gt=self.performance)[:make_20]
+            above_10=list(above_10)+list(above)
+        return list(above_10) + list(below_10)
+    
+    @property
+    def compare_gpu_10(self):
+        above_5 = GPUSpecs.objects.filter(performance__gt=self.performance)[:5]
+        make_10=10-len(above_5)
+        below_5 = GPUSpecs.objects.filter(performance__lt=self.performance)[:make_10]
+        if len(above_5)+len(below_5) != 10:
+            make_10=10-len(below_5)
+            above=GPUSpecs.objects.filter(performance__gt=self.performance)[:make_10]
+            above_5=list(above_5)+list(above)
+        return list(above_5) + list(below_5)
