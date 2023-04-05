@@ -284,9 +284,48 @@ class GPUSpecs(models.Model):
     @property
     def similar_gpu_processes(self):
         data = list()
-        if self.similar_gpu and self.rec_processor:
-            for card, process ,image in zip(self.similar_gpu, self.rec_processor ,self.brand_image):
-                data.append(dict(name=card, processor=process,brand_image=image))
+        if self.similar_gpu and self.rec_processor and self.brand_image:
+            for card, process in zip(self.similar_gpu, self.rec_processor):
+                images = {
+                'nvidia': "/static/assets/img/navidia.png",
+                'amd': "/static/assets/img/amd.png",
+                'ati': "/static/assets/img/ati.png",
+                "intel": "/static/assets/img/intel.png",
+                "ryzen": "/static/assets/img/ryzen.png",
+                }
+                key = 'nvidia'
+                if 'nvidia' in card.lower():
+                    key = 'nvidia'
+                elif 'amd' in card.lower():
+                    key = 'amd'
+                elif 'ati' in card.lower():
+                    key = 'ati'
+                elif 'intel' in card.lower():
+                    key = 'intel'
+                elif 'ryzen' in card.lower():
+                    key = 'ryzen'
+                
+                process_images = {
+                'nvidia': "/static/assets/img/navidia.png",
+                'amd': "/static/assets/img/amd.png",
+                'ati': "/static/assets/img/ati.png",
+                "intel": "/static/assets/img/intel.png",
+                "ryzen": "/static/assets/img/ryzen.png",
+                }
+                key1 = 'nvidia'
+                if 'nvidia' in process.lower():
+                    key1 = 'nvidia'
+                elif 'amd' in process.lower():
+                    key1 = 'amd'
+                elif 'ati' in process.lower():
+                    key1 = 'ati'
+                elif 'intel' in process.lower():
+                    key1 = 'intel'
+                elif 'core'in process.lower():
+                    key1 = 'intel'
+                elif 'ryzen' in process.lower():
+                    key1 = 'ryzen'
+                data.append(dict(name=card, processor=process,image=images[key],process_image=process_images[key1]))
         return data
     
 
