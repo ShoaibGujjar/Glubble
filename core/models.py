@@ -1,7 +1,7 @@
 import json
 from django.db import models
 from frontend.translation_util import get_translated_test_description
-
+from django.urls import reverse
 class GPUSpecs(models.Model):
     url = models.URLField(null=True, blank=True)
     name = models.CharField(max_length=255, null=True, blank=True)
@@ -26,9 +26,13 @@ class GPUSpecs(models.Model):
     games = models.JSONField(null=True, blank=True, default=list)
     graph_html = models.TextField(null=True, blank=True)
     amzn_link = models.CharField(max_length=255, null=True, blank=True)
+    slug = models.SlugField()
 
     def __str__(self):
         return f"{self.name} -- {self.year} -- {self.price} {self.currency}"
+    
+    def get_absolute_url(self):
+        return reverse("gpuspace", args={str(self.slug)})
 
     @classmethod
     def bulk_create_from_file(cls, filename):
@@ -281,8 +285,8 @@ class GPUSpecs(models.Model):
     def similar_gpu_processes(self):
         data = list()
         if self.similar_gpu and self.rec_processor:
-            for card, process in zip(self.similar_gpu, self.rec_processor):
-                data.append(dict(name=card, processor=process))
+            for card, process ,image in zip(self.similar_gpu, self.rec_processor ,self.brand_image):
+                data.append(dict(name=card, processor=process,brand_image=image))
         return data
     
 
@@ -347,7 +351,7 @@ class GPUSpecs(models.Model):
         make_20=20-len(above_10)
         below_10 = GPUSpecs.objects.filter(performance__lt=self.performance)[:make_20]
         if len(above_10)+len(below_10) != 20:
-            make_20=20-len(below_10)
+            make_20=20-(len(below_10)+len(above_10))
             above=GPUSpecs.objects.filter(performance__gt=self.performance)[:make_20]
             above_10=list(above_10)+list(above)
         return list(above_10) + list(below_10)
@@ -358,7 +362,7 @@ class GPUSpecs(models.Model):
         make_10=10-len(above_5)
         below_5 = GPUSpecs.objects.filter(performance__lt=self.performance)[:make_10]
         if len(above_5)+len(below_5) != 10:
-            make_10=10-len(below_5)
+            make_10=10-(len(below_5)+len(above_5))
             above=GPUSpecs.objects.filter(performance__gt=self.performance)[:make_10]
             above_5=list(above_5)+list(above)
         return list(above_5) + list(below_5)

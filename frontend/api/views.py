@@ -91,7 +91,7 @@ class FrIndexView(IndexView):
     def get_context_data(self, **kwargs):
         context_data = super(IndexView, self).get_context_data(**kwargs)
         context_data['data'] = GPUSpecs.objects.order_by('-performance')
-        context_data['obj'] = GPUSpecs.objects.get(id=1)
+        context_data['obj'] = GPUSpecs.objects.get(performance=100) #performance__gt=self.performance
         context_data['other_data'] = list(context_data['data'].values('id', 'performance'))
         return context_data
 
