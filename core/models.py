@@ -277,8 +277,31 @@ class GPUSpecs(models.Model):
 
     @property
     def equivalent_gpu_url_names(self):
+        data = list()
         if self.equivalent_gpu:
-            return [dict(name=name, url_name=name.replace(' ', '-').lower()) for name, _ in self.equivalent_gpu[0].items()]
+            for name, _ in self.equivalent_gpu[0].items():
+            #  for card, process in zip(self.similar_gpu, self.rec_processor):
+                images = {
+                'nvidia': "/static/assets/img/navidia.png",
+                'amd': "/static/assets/img/amd.png",
+                'ati': "/static/assets/img/ati.png",
+                "intel": "/static/assets/img/intel.png",
+                "ryzen": "/static/assets/img/ryzen.png",
+                }
+                key = 'nvidia'
+                if 'nvidia' in name.lower():
+                    key = 'nvidia'
+                elif 'amd' in name.lower():
+                    key = 'amd'
+                elif 'ati' in name.lower():
+                    key = 'ati'
+                elif 'intel' in name.lower():
+                    key = 'intel'
+                elif 'ryzen' in name.lower():
+                    key = 'ryzen'
+                data.append(dict(name=name, url_name=name.replace(' ', '-').lower(),image=images[key]))
+        return data
+            # return [dict(name=name, url_name=name.replace(' ', '-').lower(),image=brand_image) for name, _ ,brand_image in self.equivalent_gpu[0].items()]
         return []
 
     @property
