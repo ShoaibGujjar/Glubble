@@ -1,7 +1,7 @@
 import json
 from django.db import models
 from frontend.translation_util import get_translated_test_description
-
+from django.urls import reverse
 class GPUSpecs(models.Model):
     url = models.URLField(null=True, blank=True)
     name = models.CharField(max_length=255, null=True, blank=True)
@@ -26,9 +26,13 @@ class GPUSpecs(models.Model):
     games = models.JSONField(null=True, blank=True, default=list)
     graph_html = models.TextField(null=True, blank=True)
     amzn_link = models.CharField(max_length=255, null=True, blank=True)
+    slug = models.SlugField()
 
     def __str__(self):
         return f"{self.name} -- {self.year} -- {self.price} {self.currency}"
+    
+    def get_absolute_url(self):
+        return reverse("gpuspace", args={str(self.slug)})
 
     @classmethod
     def bulk_create_from_file(cls, filename):
@@ -273,16 +277,78 @@ class GPUSpecs(models.Model):
 
     @property
     def equivalent_gpu_url_names(self):
+        data = list()
         if self.equivalent_gpu:
-            return [dict(name=name, url_name=name.replace(' ', '-').lower()) for name, _ in self.equivalent_gpu[0].items()]
+            for name, _ in self.equivalent_gpu[0].items():
+            #  for card, process in zip(self.similar_gpu, self.rec_processor):
+                images = {
+                'nvidia': "/static/assets/img/navidia.png",
+                'amd': "/static/assets/img/amd.png",
+                'ati': "/static/assets/img/ati.png",
+                "intel": "/static/assets/img/intel.png",
+                "ryzen": "/static/assets/img/ryzen.png",
+                }
+                key = 'nvidia'
+                if 'nvidia' in name.lower():
+                    key = 'nvidia'
+                elif 'amd' in name.lower():
+                    key = 'amd'
+                elif 'ati' in name.lower():
+                    key = 'ati'
+                elif 'intel' in name.lower():
+                    key = 'intel'
+                elif 'ryzen' in name.lower():
+                    key = 'ryzen'
+                data.append(dict(name=name, url_name=name.replace(' ', '-').lower(),image=images[key]))
+        return data
+            # return [dict(name=name, url_name=name.replace(' ', '-').lower(),image=brand_image) for name, _ ,brand_image in self.equivalent_gpu[0].items()]
         return []
 
     @property
     def similar_gpu_processes(self):
         data = list()
-        if self.similar_gpu and self.rec_processor:
+        if self.similar_gpu and self.rec_processor and self.brand_image:
             for card, process in zip(self.similar_gpu, self.rec_processor):
-                data.append(dict(name=card, processor=process))
+                images = {
+                'nvidia': "/static/assets/img/navidia.png",
+                'amd': "/static/assets/img/amd.png",
+                'ati': "/static/assets/img/ati.png",
+                "intel": "/static/assets/img/intel.png",
+                "ryzen": "/static/assets/img/ryzen.png",
+                }
+                key = 'nvidia'
+                if 'nvidia' in card.lower():
+                    key = 'nvidia'
+                elif 'amd' in card.lower():
+                    key = 'amd'
+                elif 'ati' in card.lower():
+                    key = 'ati'
+                elif 'intel' in card.lower():
+                    key = 'intel'
+                elif 'ryzen' in card.lower():
+                    key = 'ryzen'
+                
+                process_images = {
+                'nvidia': "/static/assets/img/navidia.png",
+                'amd': "/static/assets/img/amd.png",
+                'ati': "/static/assets/img/ati.png",
+                "intel": "/static/assets/img/intel.png",
+                "ryzen": "/static/assets/img/ryzen.png",
+                }
+                key1 = 'nvidia'
+                if 'nvidia' in process.lower():
+                    key1 = 'nvidia'
+                elif 'amd' in process.lower():
+                    key1 = 'amd'
+                elif 'ati' in process.lower():
+                    key1 = 'ati'
+                elif 'intel' in process.lower():
+                    key1 = 'intel'
+                elif 'core'in process.lower():
+                    key1 = 'intel'
+                elif 'ryzen' in process.lower():
+                    key1 = 'ryzen'
+                data.append(dict(name=card, processor=process,image=images[key],process_image=process_images[key1]))
         return data
     
 
@@ -347,7 +413,7 @@ class GPUSpecs(models.Model):
         make_20=20-len(above_10)
         below_10 = GPUSpecs.objects.filter(performance__lt=self.performance)[:make_20]
         if len(above_10)+len(below_10) != 20:
-            make_20=20-len(below_10)
+            make_20=20-(len(below_10)+len(above_10))
             above=GPUSpecs.objects.filter(performance__gt=self.performance)[:make_20]
             above_10=list(above_10)+list(above)
         return list(above_10) + list(below_10)
@@ -358,7 +424,7 @@ class GPUSpecs(models.Model):
         make_10=10-len(above_5)
         below_5 = GPUSpecs.objects.filter(performance__lt=self.performance)[:make_10]
         if len(above_5)+len(below_5) != 10:
-            make_10=10-len(below_5)
+            make_10=10-(len(below_5)+len(above_5))
             above=GPUSpecs.objects.filter(performance__gt=self.performance)[:make_10]
             above_5=list(above_5)+list(above)
         return list(above_5) + list(below_5)

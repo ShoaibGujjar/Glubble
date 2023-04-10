@@ -315,7 +315,8 @@
                     {% for card in obj.equivalent_gpu_url_names|slice:":2" %}
                     <div class="progress-card">
                         <div class="p-card-img">
-                            <img src="{% static 'assets/img/p-card.png' %}" alt="">
+                            <img id="p-image" src="{{ card.image }}" alt="">
+                            <!-- <img src="{% static 'assets/img/p-card.png' %}" alt=""> -->
                         </div>
                         <div class="f-14 my-3">
                             {{ card.name }}
@@ -349,19 +350,18 @@
 
             <div class="container mt-5">
                 <div class="box-shadow specs-box processors-box">
-                    <h3 class="specs-heading border-bottom-0">Processeurs recommandés</h3>
-
+                    <h3 class="specs-heading border-bottom-0">GPU recommandés</h3>
                     <div class="mt-3">
                         {% for card in obj.similar_gpu_processes %}
                         <div class="processor-card">
                             <div class="d-flex align-items-center">
                                 <div class="processor-img">
-                                    <img src="{% static 'assets/img/intel.png' %}" alt="">
+                                    <!-- <img src="{% static 'assets/img/intel.png' %}" alt=""> -->
+                                    <img src="{{ card.image }}" alt="">
                                 </div>
                                 <div class="processor-text">
                                     <div class="specs-text">
                                         <h5>{{ card.name }}</h5>
-                                          <!--<div>{{ card.processor }}</div>-->
                                     </div>
                                 </div>
                             </div>
@@ -380,11 +380,12 @@
                         <div class="processor-card">
                             <div class="d-flex align-items-center">
                                 <div class="processor-img">
-                                    <img src="{% static 'assets/img/intel.png' %}" alt="">
+                                    <img src="{{ card.process_image }}" alt="" >
+                                    <!-- <img src="{% static 'assets/img/intel.png' %}" alt=""> -->
+                                    
                                 </div>
                                 <div class="processor-text">
                                     <div class="specs-text">
-                                        <!--<h5>{{ card.name }}</h5>-->
                                           <div>{{ card.processor }}</div>
                                     </div>
                                 </div>
@@ -549,7 +550,8 @@
             }
             for (let i = offset; i < limit; i++) {
                 var d = all_data[i]
-                html_data += "<div class='progress-card'> <div class='p-card-img'> <img src='{% static 'assets/img/p-card.png' %}' alt=''> </div> <div class='f-14 my-3'>" + d.name + "</div> <div> <a href='/graphics-cards/fr/" + "{{ obj.url_name|lower }}" + "-vs-" + d.url_name + "/' class='btn-default btn-default-round'>Comparer</a> </div> </div>"
+                document.getElementById('p-image').src = d.image
+                html_data += "<div class='progress-card'> <div class='p-card-img'> <img id='p-image' src="+d.image+"> </div> <div class='f-14 my-3'>" + d.name + "</div> <div> <a href='/graphics-cards/fr/" + "{{ obj.url_name|lower }}" + "-vs-" + d.url_name + "/' class='btn-default btn-default-round'>Comparer</a> </div> </div>"
             }
             $("#card_data").html(html_data)
             console.log(total_len, action, "limit:", limit, "offset: ", offset, "page_number: ", page_number)

@@ -37,11 +37,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # 'django.contrib.sites', # new
+    'django.contrib.sitemaps', # new 
+    'core.apps.CoreConfig',
 ]
+
+SITE_ID = 1 # new
 
 DJANGO_APPS = [
     'frontend',
-    'core'
+    # 'core'
 ]
 
 EXTERNAL_APPS = [

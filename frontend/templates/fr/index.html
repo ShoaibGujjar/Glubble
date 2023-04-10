@@ -174,11 +174,6 @@
          </table>
       </div>
    </div>
-   <div>
-      {% for obj in data1.compare_gpu %}
-      {{obj.name}}
-      {% endfor %}
-   </div>
    {% include "fr/cards-comparison.html" %}
    {% include "fr/footer.html" %}
    {% include "script.html" %}
@@ -221,12 +216,7 @@
 
    <script>
       
-      if (localStorage.getItem("gpu1") != "") {
-         localStorage.setItem("gpu1", "Add Graphics card from table");
-      }
-      if (localStorage.getItem("gpu2") != "") {
-         localStorage.setItem("gpu2", "Add Graphics card from table");
-      }
+
 
       function addToCompareCart(card_name, brand_image) {
          document.getElementById('comp2').innerHTML = document.getElementById('comp1').innerHTML;
@@ -236,6 +226,7 @@
          localStorage.setItem("gpu1", card1);
          localStorage.setItem("gpu2", card2);
 
+         // there was now need to add this code
          if (card1.includes("AMD")) {
             document.getElementById('compare-modal-1').src = "/static/assets/img/amd.png"
          } else if (card1.includes("NVIDIA")) {
@@ -255,6 +246,10 @@
          } else if (card2.includes("Intel")) {
             document.getElementById('compare-modal-2').src = "/static/assets/img/intel.png"
          }
+         var card1_image = document.getElementById("compare-modal-1").src;
+         var card2_image = document.getElementById("compare-modal-2").src;
+         localStorage.setItem("gpu1_image", card1_image);
+         localStorage.setItem("gpu2_image", card2_image);
       }
 
    </script>
@@ -334,8 +329,15 @@
       $('#compare-btn-fixed').click(function () {
          $('#compare-fixed-wrap').toggleClass('compare-fixed-width');
          $('#compare-icon').toggleClass('fa-arrow-right fa-arrow-left');
+         if (localStorage.getItem("gpu1") == null) {
+         localStorage.setItem("gpu1", "Add Graphics card from table");}
+         if (localStorage.getItem("gpu2") == null) {
+            localStorage.setItem("gpu2", "Add Graphics card from table");
+         }
          document.getElementById("comp1").innerHTML = localStorage.getItem("gpu1");
          document.getElementById("comp2").innerHTML = localStorage.getItem("gpu2");
+         document.getElementById("compare-modal-1").src = localStorage.getItem("gpu1_image");
+         document.getElementById("compare-modal-2").src = localStorage.getItem("gpu2_image");
       })
    </script>
 
