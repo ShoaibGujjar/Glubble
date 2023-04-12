@@ -674,6 +674,17 @@
                 $("#pass_mark").html("<div class='ctg-heading mt-3'><h2>" + n.name + "</h2></div><div class='ctg-heading mt-3'>" + n.text +"</div>");
                 $("#obj_0_performance").html(n.score)
                 }
+                if(n.name =="Passmark")
+                {
+                    var Passmark=document.getElementById("Passmark");
+                    Passmark.style.color="white",
+                    Passmark.style.backgroundColor="#8205e8";
+                }
+                else{
+                    var Passmark=document.getElementById("Passmark");
+                    Passmark.style.color="#212529",
+                    Passmark.style.backgroundColor="white";
+                }
             }
             for (let i = 0; i < tests2_data.length; i++) {
                 var n = tests2_data[i]
@@ -769,7 +780,9 @@
 
     <script>
         window.onload = (event) => {
-        console.log("page is fully loaded");
+            var Passmark=document.getElementById("Passmark");
+            Passmark.style.color="white",
+            Passmark.style.backgroundColor="#8205e8";
         };
     </script>
 

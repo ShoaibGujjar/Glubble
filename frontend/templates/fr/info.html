@@ -11,7 +11,6 @@
         background-color: #8205e8;
         color: white
     }
-
     .VIpgJd-ZVi9od-ORHb-OEVmcd {
         visibility:hidden !important;
     }
@@ -406,11 +405,16 @@
         let speed = $("#speed");
         let updatedSpeed
         $(window).on('load', function () {
+            var Passmark=document.getElementById("Passmark");
+            Passmark.style.color="white",
+            Passmark.style.backgroundColor="#8205e8";
             console.log(models)
+            updatedSpeed = Math.round(speed.val() * 180 / 100) - 45;
             $("#speedbox-score").css("transform", "rotate(" + updatedSpeed + "deg)");
             console.log(updatedSpeed);
         });
     </script>
+
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
@@ -496,6 +500,22 @@
                 if (n.name == name) {
                 $("#pass_mark").html("<div class='ctg-heading mt-3'><h2>" + n.name + "</h2></div><div class='ctg-heading mt-3'>" + n.text +"</div>");
                 $("#benchmark_performance").html(n.score)
+                if(n.name =="Passmark")
+                {
+                    var Passmark=document.getElementById("Passmark");
+                    Passmark.style.color="white",
+                    Passmark.style.backgroundColor="#8205e8";
+                }
+                else{
+                    var Passmark=document.getElementById("Passmark");
+                    Passmark.style.color="#212529",
+                    Passmark.style.backgroundColor="white";
+                }
+                // let updatedSpeedd
+                // updatedSpeedd = Math.round(n.score )-90;
+                // console.log(n.score)
+                // console.log(updatedSpeedd)
+                // $("#speedbox-score").css("transform", "rotate(" + updatedSpeedd + "deg)");
                 }
             }
         }
